@@ -1,0 +1,16 @@
+{
+  "selection_date": "2026-11-16",
+  "scheme": "A",
+  "reason": "Minimal phase-preserving first training baseline; B remains an ablation; C FFT only",
+  "interpolation": "linear_to_dense_uniform_k",
+  "dense_points": 10001,
+  "model_points": 2048,
+  "resampling": "scipy.signal.resample_poly, padtype=line, actual output coordinates",
+  "normalization": "per_spectrum_subtract_mean_divide_RMS_after_resampling",
+  "extra_smoothing": false,
+  "envelope_division": false,
+  "hann": false,
+  "temperature_correction": false,
+  "label_status": "legacy distance unverified; no independent phase truth",
+  "selection_status": "preprocessing diagnostic decision; neural-network accuracy not yet compared"
+}

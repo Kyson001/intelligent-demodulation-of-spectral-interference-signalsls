@@ -1,0 +1,10 @@
+{
+  "reference_nm": 1560.0,
+  "background_sigma_points": 100.0,
+  "envelope_floor_fraction": 0.08,
+  "fit_envelope_fraction": 0.15,
+  "min_opd_mm": 0.5,
+  "max_opd_mm": 15.0,
+  "sideband_half_width_bins": 12,
+  "model_points": 2048
+}

@@ -1,0 +1,16 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+analysis/
+data/
+datasets/
+*.rar
+*.npy
+*.npz
+*.pt
+*.pth
+*.pdf
+*.m
+!results/preprocessing/figures/*.pdf
+results/preprocessing/real_metrics.csv
+results/preprocessing/input_hashes.json
