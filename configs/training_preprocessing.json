@@ -14,7 +14,9 @@
   "hann": true,
   "hann_periodic": true,
   "temperature_correction": false,
-  "label_status": "legacy distance unverified; no independent phase truth",
+  "label_status": "algorithmic_peak_spacing_OPD_and_local_Fourier_phase_pseudo_labels; no independent truth",
+  "pseudo_label_config": "configs/pseudo_labels.json",
+  "phase_reference_nm": 1560.0,
   "intensity_unit": "recorded_pending_confirmation",
   "grouping_status": "ten_repeats_per_position_known_but_file_to_position_mapping_unconfirmed",
   "selection_status": "user_selected_C; neural-network accuracy not yet compared"

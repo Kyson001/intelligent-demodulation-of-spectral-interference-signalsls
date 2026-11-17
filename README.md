@@ -27,13 +27,16 @@ python scripts/preprocess_c.py --data-dir analysis/data_4000
 python scripts/compare_preprocessing.py --data-dir analysis/data_4000
 python scripts/plot_preprocessing.py
 python scripts/export_model_inputs.py --data-dir analysis/data_4000
+python -X utf8 scripts/generate_pseudo_labels.py --data-dir analysis/data_4000
 ```
 
 CSV列为波长和强度，首行为标题。当前配置针对1510–1610 nm、10001点以及约2.3–10.3 mm的诊断OPD范围，不能直接作为其他仪器的通用标定。
 
 C方案结果默认保存到`analysis/preprocessed_C/`。新采集说明为每位置10次重复；在文件与位置对应关系确认前，新导出不自动划分训练/验证/测试集。候选顺序块仅用于核对。
 
-原始数据和论文不在Git中分发；需要自行取得授权数据。缓存距离标签为未核实的历史派生数据，原始标签表和独立相位真值仍待补齐。导出程序不会将其冒充OPD/相位真值。
+已实现多干涉峰频率间距OPD伪标签和1560 nm中心相位伪标签。全部4000条已计算，3999条OPD和3992条相位通过当前QC，8条保留待复核。中心相位使用正侧带局部二次拟合，另有峰位截距相位用于交叉检查。详见[伪标签算法与相位说明](docs/06_光程差与相位伪标签生成说明.md)。
+
+伪标签及合并后的C输入默认保存在`analysis/pseudo_labels/`，合并前检查sample_id、原始文件哈希和预处理配置。原始数据和论文不在Git中分发；缓存距离标签仍未核实，新增算法标签也不是独立测量真值。
 
 ## 目录
 
