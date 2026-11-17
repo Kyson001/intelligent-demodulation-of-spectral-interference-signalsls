@@ -1,0 +1,4 @@
+# 原始光谱与数据清单保持原始字节，避免不同系统的换行转换破坏SHA256校验。
+datasets/raw/*.csv -text whitespace=cr-at-eol
+datasets/manifests/*.csv -text whitespace=cr-at-eol
+datasets/processed/*.npz -text

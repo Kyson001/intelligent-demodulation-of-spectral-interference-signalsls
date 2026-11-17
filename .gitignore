@@ -3,10 +3,16 @@ __pycache__/
 *.pyc
 analysis/
 data/
-datasets/
+datasets/*
+!datasets/raw/
+!datasets/processed/
+!datasets/manifests/
+!datasets/README.md
+!datasets/manifest.json
 *.rar
 *.npy
 *.npz
+!datasets/processed/*.npz
 *.pt
 *.pth
 *.pdf

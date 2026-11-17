@@ -280,7 +280,7 @@ def package_readme(summary):
 | 验证 | {counts['validation']['positions']} | {counts['validation']['samples']} | datasets/validation/processed_C_with_pseudo_labels.npz |
 | 测试 | {counts['test']['positions']} | {counts['test']['samples']} | datasets/test/processed_C_with_pseudo_labels.npz |
 
-每个分区还包含原始CSV的raw目录及samples_and_labels.csv。全部4000条保留。代码位于code，中文原理说明位于docs。
+每个分区还包含samples_and_labels.csv。{'原始CSV已复制到各分区raw目录。' if summary['raw_copied'] else '原始CSV未重复复制，请使用运行划分时提供的raw目录。'}全部4000条保留。代码位于code，中文原理说明位于docs。
 
 ## 使用
 

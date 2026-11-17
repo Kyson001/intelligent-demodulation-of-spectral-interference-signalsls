@@ -1,0 +1,22 @@
+{
+  "samples": 4000,
+  "positions": 400,
+  "repeats": 10,
+  "conclusion": "strongly_supports_contiguous_blocks_from_file0001",
+  "evidence_scope": "inferred_from_acquisition_description_and_spectra_not_hardware_position_log",
+  "best_offset": 0,
+  "within_opd_median_um": 0.21958552826615088,
+  "boundary_opd_median_um": 19.954069510997197,
+  "boundary_to_within_ratio": 90.87151447800177,
+  "fft_shape_within_median": 0.00020056962966918945,
+  "fft_shape_boundary_median": 0.21396929025650024,
+  "position_median_opd_step_um_p05_p50_p95": [
+    17.930660649890978,
+    20.066376036282236,
+    21.937605020900627
+  ],
+  "position_review_rule": "absolute deviation from position median OPD > 5 um; flag only",
+  "position_review_count": 5,
+  "cross_position_duplicate_groups": 3,
+  "leakage_components": 397
+}
