@@ -4,7 +4,7 @@
 
 研究对象：迈克尔逊干涉仪，目标为光程差（OPD）与参考波长处的相位联合估计。
 
-当前已完成三种预处理的数值实现、全数据配对诊断、已知真值仿真控制和图表输出；尚未训练神经网络。没有独立真值的指标不表述为测量精度。
+当前已完成预处理、伪标签、按位置分区，以及不用CNN的双任务MLP教学基线训练。该MLP的验证误差仍较大，不能作为最终高精度模型。没有独立真值的指标不表述为测量精度。
 
 ## 数据、代码与整个课题的复现思路
 
@@ -15,6 +15,21 @@
 - [整个课题的复现思路与操作步骤](docs/08_整个课题复现思路与操作步骤.md)：数据链路、后续网络训练、评价、网页及PPT的实施安排。
 
 原始CSV及处理后数组均已放在仓库内；下载后可直接使用，也可从原始数据重新计算。
+
+## 不用CNN的联合网络入门
+
+详见[手把手教程](docs/09_不用CNN的联合解调网络手把手教程.md)。[网络、数据和损失](src/demodulation/joint_mlp.py)与[训练入口](scripts/train_joint_mlp.py)均有分块中文注释。
+
+模型为2048→256→128→64的共享全连接层，分别输出标准化OPD和相位sin/cos。仅用训练集拟合OPD标准化，两个任务分别使用有效标签掩码，默认训练不读取测试集。
+
+```powershell
+python -m venv .venv-training
+.\.venv-training\Scripts\python.exe -m pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
+.\.venv-training\Scripts\python.exe -m pip install -r requirements-training.txt
+.\.venv-training\Scripts\python.exe -X utf8 scripts/train_joint_mlp.py train --epochs 100 --device cpu --out analysis/my_mlp_100
+```
+
+本次100轮教学实验的验证OPD MAE为887.691 μm、相位圆周MAE为0.6389 rad，最佳第99轮。完整配置和逐条结果保存在本机`analysis/joint_mlp_tutorial_seed20261117/`；教程记录了结果和限制，真实测试集尚未评价。论文前仍需改进泛化、多种子及独立真值验证。
 
 ## 预处理比较
 
