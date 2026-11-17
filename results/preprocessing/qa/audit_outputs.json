@@ -1,0 +1,58 @@
+[
+  {
+    "file": "01_spectrum_fft_phase.pdf",
+    "font": {
+      "pdf": "results\\preprocessing\\figures\\01_spectrum_fft_phase.pdf",
+      "auditable": true,
+      "minimum_required_pt": 5.0,
+      "minimum_found_pt": 7.0,
+      "text_run_count": 100,
+      "below_minimum_count": 0,
+      "below_minimum": [],
+      "warnings": []
+    },
+    "collision": "Nature Figure Rendered Collision Audit\npdf: results\\preprocessing\\figures\\01_spectrum_fft_phase.pdf\npages: 1\nvisible text boxes: 100\nstroke paths: 110\n\n\nsummary: 0 fail, 0 warn, 4 contained fill overlays, 0 contained image overlays\nverdict: PASS\nnote: contained overlays can be intentional; WARN findings need final-size visual review\n"
+  },
+  {
+    "file": "02_boundary_examples.pdf",
+    "font": {
+      "pdf": "results\\preprocessing\\figures\\02_boundary_examples.pdf",
+      "auditable": true,
+      "minimum_required_pt": 5.0,
+      "minimum_found_pt": 7.0,
+      "text_run_count": 99,
+      "below_minimum_count": 0,
+      "below_minimum": [],
+      "warnings": []
+    },
+    "collision": "Nature Figure Rendered Collision Audit\npdf: results\\preprocessing\\figures\\02_boundary_examples.pdf\npages: 1\nvisible text boxes: 99\nstroke paths: 111\n\n\nsummary: 0 fail, 0 warn, 0 contained fill overlays, 0 contained image overlays\nverdict: PASS\nnote: contained overlays can be intentional; WARN findings need final-size visual review\n"
+  },
+  {
+    "file": "03_population_diagnostics.pdf",
+    "font": {
+      "pdf": "results\\preprocessing\\figures\\03_population_diagnostics.pdf",
+      "auditable": true,
+      "minimum_required_pt": 5.0,
+      "minimum_found_pt": 5.6,
+      "text_run_count": 70,
+      "below_minimum_count": 0,
+      "below_minimum": [],
+      "warnings": []
+    },
+    "collision": "Nature Figure Rendered Collision Audit\npdf: results\\preprocessing\\figures\\03_population_diagnostics.pdf\npages: 1\nvisible text boxes: 70\nstroke paths: 162\n\n\nsummary: 0 fail, 0 warn, 7 contained fill overlays, 0 contained image overlays\nverdict: PASS\nnote: contained overlays can be intentional; WARN findings need final-size visual review\n"
+  },
+  {
+    "file": "04_synthetic_controls.pdf",
+    "font": {
+      "pdf": "results\\preprocessing\\figures\\04_synthetic_controls.pdf",
+      "auditable": true,
+      "minimum_required_pt": 5.0,
+      "minimum_found_pt": 5.6,
+      "text_run_count": 38,
+      "below_minimum_count": 0,
+      "below_minimum": [],
+      "warnings": []
+    },
+    "collision": "Nature Figure Rendered Collision Audit\npdf: results\\preprocessing\\figures\\04_synthetic_controls.pdf\npages: 1\nvisible text boxes: 38\nstroke paths: 157\n\n\nsummary: 0 fail, 0 warn, 0 contained fill overlays, 0 contained image overlays\nverdict: PASS\nnote: contained overlays can be intentional; WARN findings need final-size visual review\n"
+  }
+]

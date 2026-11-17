@@ -1,0 +1,40 @@
+{
+  "version": "2026-11-17",
+  "raw_csvs": 4000,
+  "raw_points": 10001,
+  "wavelength_nm": [
+    1510,
+    1610
+  ],
+  "raw_bytes": 880212000,
+  "raw_sha256_manifest": "datasets/manifests/sample_manifest.csv",
+  "intensity_unit": "recorded_pending_confirmation",
+  "preprocessing_scheme": "C",
+  "model_points": 2048,
+  "phase_reference_nm": 1560,
+  "split_seed": 20261117,
+  "processed": {
+    "train": {
+      "path": "datasets/processed/train.npz",
+      "samples": 2800,
+      "positions": 280,
+      "sha256": "dd5b1ef4cbb3bcb49041841964fec3637f6732639ea3b5064c82b6e729959769",
+      "bytes": 21954344
+    },
+    "validation": {
+      "path": "datasets/processed/validation.npz",
+      "samples": 600,
+      "positions": 60,
+      "sha256": "17afef81fa34a5f07d78f8e016e05411b77fd2446218129a2112caade267c064",
+      "bytes": 4721168
+    },
+    "test": {
+      "path": "datasets/processed/test.npz",
+      "samples": 600,
+      "positions": 60,
+      "sha256": "231d7639ae80d3c1c489751f8deb74c7efca082fb558d4ed049773a067a95188",
+      "bytes": 4721464
+    }
+  },
+  "labels": "algorithmic_pseudo_labels_not_independent_truth"
+}

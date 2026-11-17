@@ -1,0 +1,23 @@
+{
+  "selection_date": "2026-11-17",
+  "scheme": "C",
+  "reason": "User selected envelope compensation plus Hann as the project preprocessing",
+  "interpolation": "linear_to_dense_uniform_k",
+  "dense_points": 10001,
+  "model_points": 2048,
+  "resampling": "scipy.signal.resample_poly, padtype=line, actual output coordinates",
+  "normalization": "per_spectrum_subtract_mean_divide_RMS_after_resampling",
+  "extra_smoothing": false,
+  "envelope_division": true,
+  "background_sigma_points": 100.0,
+  "envelope_floor_fraction": 0.08,
+  "hann": true,
+  "hann_periodic": true,
+  "temperature_correction": false,
+  "label_status": "algorithmic_peak_spacing_OPD_and_local_Fourier_phase_pseudo_labels; no independent truth",
+  "pseudo_label_config": "configs/pseudo_labels.json",
+  "phase_reference_nm": 1560.0,
+  "intensity_unit": "recorded_pending_confirmation",
+  "grouping_status": "contiguous_ten_supported_by_spectral_audit; position_split_exporter_binds_cross_position_duplicates",
+  "selection_status": "user_selected_C; neural-network accuracy not yet compared"
+}

@@ -1,0 +1,75 @@
+{
+  "seed": 20261117,
+  "split_method": "random_by_position_70_15_15_with_duplicate_components",
+  "assignment_basis": "positions_and_exact_duplicates_only_not_pseudo_label_values",
+  "ordering_audit": {
+    "samples": 4000,
+    "positions": 400,
+    "repeats": 10,
+    "conclusion": "strongly_supports_contiguous_blocks_from_file0001",
+    "evidence_scope": "inferred_from_acquisition_description_and_spectra_not_hardware_position_log",
+    "best_offset": 0,
+    "within_opd_median_um": 0.21958552826615088,
+    "boundary_opd_median_um": 19.954069510997197,
+    "boundary_to_within_ratio": 90.87151447800177,
+    "fft_shape_within_median": 0.00020056962966918945,
+    "fft_shape_boundary_median": 0.21396929025650024,
+    "position_median_opd_step_um_p05_p50_p95": [
+      17.930660649890978,
+      20.066376036282236,
+      21.937605020900627
+    ],
+    "position_review_rule": "absolute deviation from position median OPD > 5 um; flag only",
+    "position_review_count": 5,
+    "cross_position_duplicate_groups": 3,
+    "leakage_components": 397
+  },
+  "raw_copied": true,
+  "exclusions": 0,
+  "position_or_duplicate_leakage": false,
+  "ground_truth_status": "OPD and center phase are algorithmic pseudo labels",
+  "splits": {
+    "train": {
+      "samples": 2800,
+      "positions": 280,
+      "opd_valid": 2799,
+      "phase_valid": 2794,
+      "position_review": 5,
+      "opd_range_mm": [
+        2.3093092114589338,
+        10.24009785108235
+      ],
+      "outside_train_opd_range": 0
+    },
+    "validation": {
+      "samples": 600,
+      "positions": 60,
+      "opd_valid": 600,
+      "phase_valid": 600,
+      "position_review": 0,
+      "opd_range_mm": [
+        2.8408802838203355,
+        10.26087580738671
+      ],
+      "outside_train_opd_range": 10
+    },
+    "test": {
+      "samples": 600,
+      "positions": 60,
+      "opd_valid": 600,
+      "phase_valid": 598,
+      "position_review": 0,
+      "opd_range_mm": [
+        2.3805970274143395,
+        10.280260944225097
+      ],
+      "outside_train_opd_range": 10
+    }
+  },
+  "source_bundle_sha256": "3f8bc02691aa68a52f41a0ed5942ba90a197445342f8c319521db79edabfe0b5",
+  "dataset_sha256": {
+    "train": "dd5b1ef4cbb3bcb49041841964fec3637f6732639ea3b5064c82b6e729959769",
+    "validation": "17afef81fa34a5f07d78f8e016e05411b77fd2446218129a2112caade267c064",
+    "test": "231d7639ae80d3c1c489751f8deb74c7efca082fb558d4ed049773a067a95188"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-17",
+  "source_commit": "b490fae3cc8cdccac6f516982a3d3754bd5ebf54",
+  "raw_count": 4000,
+  "tests_passed": 41,
+  "full_pipeline": "completed",
+  "processed": {
+    "train": {
+      "sha256": "dd5b1ef4cbb3bcb49041841964fec3637f6732639ea3b5064c82b6e729959769",
+      "byte_identical": true
+    },
+    "validation": {
+      "sha256": "17afef81fa34a5f07d78f8e016e05411b77fd2446218129a2112caade267c064",
+      "byte_identical": true
+    },
+    "test": {
+      "sha256": "231d7639ae80d3c1c489751f8deb74c7efca082fb558d4ed049773a067a95188",
+      "byte_identical": true
+    }
+  },
+  "committed_raw_byte_samples_verified": [
+    "file0001.csv",
+    "file2000.csv",
+    "file4000.csv"
+  ]
+}
