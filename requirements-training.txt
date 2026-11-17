@@ -1,0 +1,3 @@
+# 先按教程安装适合CPU或显卡的PyTorch，再安装本文件。
+-r requirements-repro.txt
+torch==2.15.0
