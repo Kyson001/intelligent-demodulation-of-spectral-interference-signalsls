@@ -16,10 +16,17 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--data-dir',type=Path,default=ROOT/'analysis/data_4000')
     parser.add_argument('--out',type=Path,default=ROOT/'analysis/preprocessed')
-    parser.add_argument('--scheme',choices=['A','B'],default='A')
+    parser.add_argument('--scheme',choices=['A','B','C'],default=None)
     args=parser.parse_args()
+    training_config=json.loads((ROOT/'configs/training_preprocessing.json').read_text(encoding='utf-8'))
+    # 未指定时使用当前项目配置；旧A/B导出仍可通过--scheme显式复现。
+    if args.scheme is None:
+        args.scheme=training_config['scheme']
     args.out.mkdir(parents=True,exist_ok=True)
-    config=Config(**json.loads((ROOT/'configs/preprocessing_comparison.json').read_text(encoding='utf-8')))
+    settings=json.loads((ROOT/'configs/preprocessing_comparison.json').read_text(encoding='utf-8'))
+    # 当前训练配置覆盖同名参数，避免旧比较配置与实际训练设置不一致。
+    settings.update({key:training_config[key] for key in settings if key in training_config})
+    config=Config(**settings)
     paths=sorted(args.data_dir.glob('file*.csv'))
     if not paths:
         raise ValueError('No input CSVs')
@@ -37,11 +44,9 @@ def main():
         if (index+1)%500==0:
             print(f'Exported {index+1}/{len(paths)} inputs',flush=True)
     unique=np.array(sorted(set(groups)))
-    rng=np.random.default_rng(20261116)
-    rng.shuffle(unique)
-    a=int(.7*len(unique)); b=int(.85*len(unique))
-    mapping={g:'train' if i<a else 'validation' if i<b else 'test' for i,g in enumerate(unique)}
-    splits=np.array([mapping[g] for g in groups])
+    # 采集说明已更新：每位置10次。只有重复谱哈希不能防止同位置泄漏，暂停自动划分。
+    # 待确认文件到位置的对应关系后，再按采集位置建立训练/验证/测试组。
+    splits=np.full(len(paths),'unassigned')
     label_paths=list((args.data_dir/'_cache').glob('d_mm*.npy'))
     legacy=np.load(label_paths[0]) if label_paths else np.full(len(paths),np.nan)
     # NEVER output legacy distance under the name opd_truth.
@@ -54,9 +59,9 @@ def main():
                         duplicate_group=np.array(groups),split=splits,rms=np.array(scales),mean=np.array(means),
                         legacy_d_mm=legacy,label_status=np.array('unverified_legacy_distance_no_phase_truth'))
     summary=dict(scheme=args.scheme,shape=list(X.shape),dtype=str(X.dtype),
-                 unique_groups=len(unique),counts={s:int(sum(splits==s)) for s in ['train','validation','test']},
-                 split_seed=20261116,duplicate_group_leakage=False,
-                 split_limit='Only exact duplicates identified; same-batch correlation still unknown',
+                 unique_groups=len(unique),counts={s:int(sum(splits==s)) for s in ['train','validation','test','unassigned']},
+                 split_seed=None,duplicate_group_leakage=None,
+                 split_limit='No split assigned pending confirmed acquisition positions (10 repeats per position)',
                  evaluation_limit='Exploratory preprocessing used full dataset; future evaluation needs independently frozen data',
                  label_status='Original workbook and independent phase labels missing',
                  file_sha256=hashlib.sha256(filename.read_bytes()).hexdigest())

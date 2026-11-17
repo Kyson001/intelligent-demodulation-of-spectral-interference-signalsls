@@ -1,16 +1,21 @@
 {
-  "selection_date": "2026-11-16",
-  "scheme": "A",
-  "reason": "Minimal phase-preserving first training baseline; B remains an ablation; C FFT only",
+  "selection_date": "2026-11-17",
+  "scheme": "C",
+  "reason": "User selected envelope compensation plus Hann as the project preprocessing",
   "interpolation": "linear_to_dense_uniform_k",
   "dense_points": 10001,
   "model_points": 2048,
   "resampling": "scipy.signal.resample_poly, padtype=line, actual output coordinates",
   "normalization": "per_spectrum_subtract_mean_divide_RMS_after_resampling",
   "extra_smoothing": false,
-  "envelope_division": false,
-  "hann": false,
+  "envelope_division": true,
+  "background_sigma_points": 100.0,
+  "envelope_floor_fraction": 0.08,
+  "hann": true,
+  "hann_periodic": true,
   "temperature_correction": false,
   "label_status": "legacy distance unverified; no independent phase truth",
-  "selection_status": "preprocessing diagnostic decision; neural-network accuracy not yet compared"
+  "intensity_unit": "recorded_pending_confirmation",
+  "grouping_status": "ten_repeats_per_position_known_but_file_to_position_mapping_unconfirmed",
+  "selection_status": "user_selected_C; neural-network accuracy not yet compared"
 }

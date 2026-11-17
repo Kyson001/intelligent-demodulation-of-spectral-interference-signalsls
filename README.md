@@ -12,7 +12,7 @@
 - B：慢变背景扣除＋有下限的包络代理归一化。
 - C：B＋Hann加窗。
 
-首轮网络选择A，加抗混叠2048点重采样及逐谱RMS归一化；B保留为消融，C保留为FFT对照。详见[实验报告](docs/04_三种预处理方案实验报告.md)。
+当前按用户选择使用**C方案：包络补偿＋Hann窗**，再抗混叠至2048点并逐谱RMS归一化。完整中文注释脚本为[scripts/preprocess_c.py](scripts/preprocess_c.py)，分块讲解见[C方案使用说明](docs/05_C方案完整代码与分块讲解.md)。此前A/B/C比较结果保留于[实验报告](docs/04_三种预处理方案实验报告.md)，不将用户选择表述为已证明的精度最优。
 
 ![光谱、FFT与相位比较](results/preprocessing/figures/01_spectrum_fft_phase.png)
 
@@ -23,12 +23,15 @@
 ```powershell
 python -m pip install -r requirements.txt
 python -m pytest tests -q
+python scripts/preprocess_c.py --data-dir analysis/data_4000
 python scripts/compare_preprocessing.py --data-dir analysis/data_4000
 python scripts/plot_preprocessing.py
 python scripts/export_model_inputs.py --data-dir analysis/data_4000
 ```
 
 CSV列为波长和强度，首行为标题。当前配置针对1510–1610 nm、10001点以及约2.3–10.3 mm的诊断OPD范围，不能直接作为其他仪器的通用标定。
+
+C方案结果默认保存到`analysis/preprocessed_C/`。新采集说明为每位置10次重复；在文件与位置对应关系确认前，新导出不自动划分训练/验证/测试集。候选顺序块仅用于核对。
 
 原始数据和论文不在Git中分发；需要自行取得授权数据。缓存距离标签为未核实的历史派生数据，原始标签表和独立相位真值仍待补齐。导出程序不会将其冒充OPD/相位真值。
 

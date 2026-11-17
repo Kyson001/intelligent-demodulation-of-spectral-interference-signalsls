@@ -38,7 +38,7 @@ def test_sort_and_input_coordinates():
     assert abs(x.mean())<1e-6
     assert abs(np.mean(x*x)-1)<1e-5
     with pytest.raises(ValueError):
-        model_input(w,y,'C')
+        model_input(w,y,'unknown')
     with pytest.raises(ValueError):
         uniform_k(np.ones(10001),y)
 

@@ -153,13 +153,14 @@ def compare(wavelength_nm, intensity, config=Config()):
 
 
 def model_input(wavelength_nm, intensity, scheme='A', config=Config()):
-    """Training/inference recipe: unwindowed A or B, anti-alias, scalar RMS.
+    """训练/推理共用入口：A/B/C预处理、抗混叠重采样、逐谱RMS归一化。
 
-    Returns actual resampling coordinates; resample_poly does not preserve both
-    endpoints in general. No global data-dependent statistics or labels are used.
+    C在密波数网格上先补偿包络，再乘Hann窗。这里不生成距离或相位真值。
+    返回真实重采样坐标；多相重采样一般不会同时保留原网格的两个端点。
+    默认A保留旧接口兼容性；正式导出入口读取训练配置指定的方案。
     """
-    if scheme not in ('A','B'):
-        raise ValueError('Hann scheme C is reserved for FFT diagnostics')
+    if scheme not in ('A','B','C'):
+        raise ValueError('Unknown preprocessing scheme')
     k, y = uniform_k(wavelength_nm,intensity)
     if scheme == 'A':
         signal = y-y.mean()
@@ -167,8 +168,10 @@ def model_input(wavelength_nm, intensity, scheme='A', config=Config()):
         signals, _ = prepare(k,y,config)
         signal = signals[scheme]
     nout = config.model_points
+    # 抗混叠滤波后改变采样率；不能用简单隔点抽取代替。
     out = resample_poly(signal, nout, len(k), padtype='line')
     ko = k[0]+np.arange(len(out))*(k[1]-k[0])*len(k)/nout
+    # 重采样后再次去均值，再统一尺度；C的边缘此时不再严格为零，这是中心化的结果。
     centered = out-out.mean()
     scale = float(np.sqrt(np.mean(centered**2)))
     if scale < 1e-15:
