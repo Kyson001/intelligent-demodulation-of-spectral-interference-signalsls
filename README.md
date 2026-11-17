@@ -32,7 +32,12 @@ python -X utf8 scripts/generate_pseudo_labels.py --data-dir analysis/data_4000
 
 CSV列为波长和强度，首行为标题。当前配置针对1510–1610 nm、10001点以及约2.3–10.3 mm的诊断OPD范围，不能直接作为其他仪器的通用标定。
 
-C方案结果默认保存到`analysis/preprocessed_C/`。新采集说明为每位置10次重复；在文件与位置对应关系确认前，新导出不自动划分训练/验证/测试集。候选顺序块仅用于核对。
+C方案结果默认保存到`analysis/preprocessed_C/`，预处理/制标签阶段不自动划分。新增顺序核查强烈支持从file0001起每位置连续10条；`scripts/split_dataset_by_position.py`按位置生成2800/600/600条训练、验证和测试数据，跨位置完全重复谱绑定分区。桌面包包含原始CSV、C输入、伪标签、分组清单和完整代码，详见[位置划分与交付说明](docs/07_按采集位置分组与数据包说明.md)。
+
+```powershell
+python -X utf8 scripts/split_dataset_by_position.py
+python -X utf8 scripts/verify_dataset_package.py "桌面数据包路径" --verify-raw-hashes
+```
 
 已实现多干涉峰频率间距OPD伪标签和1560 nm中心相位伪标签。全部4000条已计算，3999条OPD和3992条相位通过当前QC，8条保留待复核。中心相位使用正侧带局部二次拟合，另有峰位截距相位用于交叉检查。详见[伪标签算法与相位说明](docs/06_光程差与相位伪标签生成说明.md)。
 

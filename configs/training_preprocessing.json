@@ -18,6 +18,6 @@
   "pseudo_label_config": "configs/pseudo_labels.json",
   "phase_reference_nm": 1560.0,
   "intensity_unit": "recorded_pending_confirmation",
-  "grouping_status": "ten_repeats_per_position_known_but_file_to_position_mapping_unconfirmed",
+  "grouping_status": "contiguous_ten_supported_by_spectral_audit; position_split_exporter_binds_cross_position_duplicates",
   "selection_status": "user_selected_C; neural-network accuracy not yet compared"
 }
