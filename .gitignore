@@ -15,9 +15,11 @@ datasets/*
 *.npz
 !datasets/processed/*.npz
 *.pt
+!results/lstm_comparison/runs/*/best.pt
 *.pth
 *.pdf
 *.m
 !results/preprocessing/figures/*.pdf
+!results/lstm_comparison/*.pdf
 results/preprocessing/real_metrics.csv
 results/preprocessing/input_hashes.json
