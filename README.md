@@ -4,7 +4,7 @@
 
 研究对象：迈克尔逊干涉仪，目标为光程差（OPD）与参考波长处的相位联合估计。
 
-当前已完成预处理、伪标签、按位置分区，以及不用CNN的双任务MLP教学基线训练。该MLP的验证误差仍较大，不能作为最终高精度模型。没有独立真值的指标不表述为测量精度。
+当前已完成预处理、伪标签、按位置分区，以及不用CNN的MLP和光谱块双向LSTM联合解调训练。带全局/参考点读出的LSTM在当前验证集上改善明显，仍需多种子和独立真值验证。没有独立真值的指标不表述为测量精度。
 
 ## 数据、代码与整个课题的复现思路
 
@@ -15,6 +15,27 @@
 - [整个课题的复现思路与操作步骤](docs/08_整个课题复现思路与操作步骤.md)：数据链路、后续网络训练、评价、网页及PPT的实施安排。
 
 原始CSV及处理后数组均已放在仓库内；下载后可直接使用，也可从原始数据重新计算。
+
+## LSTM联合解调与MLP比较
+
+完整中文讲解见[LSTM手把手教程](docs/10_LSTM联合解调手把手教程与MLP对比.md)，代码为[网络定义](src/demodulation/joint_lstm.py)和[训练入口](scripts/train_joint_lstm.py)。输入按波数轴组织成256个连续8点块，没有卷积、抽点或重复谱拼接。
+
+| 模型，单种子验证集600条 | OPD MAE / μm | 相位圆周MAE / rad |
+|---|---:|---:|
+| 原MLP | 887.691 | 0.638882 |
+| 双向LSTM，仅终态读出对照 | 1829.367 | 1.4338 |
+| 双向LSTM，全局＋参考点读出 | 95.936 | 0.051840 |
+
+主LSTM相对MLP的OPD/相位MAE分别下降89.19%/91.89%。改善包含序列建模与读出结构的作用，不能归结为“换LSTM必然更好”。数据哈希、种子、优化器、损失和训练上限一致；实际参数量/时间不同。真实测试集未评价。
+
+```powershell
+.\.venv-training\Scripts\python.exe -X utf8 scripts/train_joint_lstm.py train --epochs 100 --device cpu --out analysis/my_lstm_100
+.\.venv-training\Scripts\python.exe -X utf8 scripts/compare_joint_models.py --mlp-run results/lstm_comparison/runs/mlp --lstm-run results/lstm_comparison/runs/lstm_center_global --control-run results/lstm_comparison/runs/lstm_last
+```
+
+比较脚本直接读取已归档的权重、日志和预测；[结果目录](results/lstm_comparison)含完整指标、逐条/逐位置对比和可编辑图形。
+
+![MLP与LSTM联合解调比较](results/lstm_comparison/mlp_vs_lstm.png)
 
 ## 不用CNN的联合网络入门
 

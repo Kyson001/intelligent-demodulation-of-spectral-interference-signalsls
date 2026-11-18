@@ -82,7 +82,7 @@ def export_predictions(path, data, pred, stats):
 
 
 # 第八块：读取训练/验证数据并建立网络。这里完全不读取test.npz。
-def train(args, device):
+def train(args, device, model_class=JointMLP, model_kwargs=None, model_type='mlp'):
     train_path, val_path = args.data_dir / 'train.npz', args.data_dir / 'validation.npz'
     train_data, val_data = load_split(train_path), load_split(val_path)
     check_no_leakage(train_data, val_data)
@@ -95,8 +95,10 @@ def train(args, device):
     generator = torch.Generator().manual_seed(args.seed)
     loader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True,
                         num_workers=0, generator=generator)
-    model_args = dict(input_dim=train_data['X'].shape[1], hidden=args.hidden, dropout=args.dropout)
-    model = JointMLP(**model_args).to(device)
+    # 默认仍是原来的MLP；LSTM入口传入另一模型类，共用完全相同的数据/损失/划分。
+    model_args = (dict(input_dim=train_data['X'].shape[1], hidden=args.hidden, dropout=args.dropout)
+                  if model_kwargs is None else model_kwargs)
+    model = model_class(**model_args).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-4)
     val_batch = tuple(value.to(device) for value in SpectralDataset(val_data, stats)[:])
     args.out.mkdir(parents=True, exist_ok=False)  # 避免意外覆盖之前的最佳模型。
@@ -104,7 +106,9 @@ def train(args, device):
     config.update(opd_stats=stats, device_used=str(device), torch_version=str(torch.__version__),
                   numpy_version=np.__version__, python_version=sys.version,
                   train_sha256=file_sha(train_path), validation_sha256=file_sha(val_path),
-                  model_args=model_args, train_samples=len(dataset), validation_samples=len(val_data['X']))
+                  model_args=model_args, model_type=model_type,
+                  parameter_count=sum(p.numel() for p in model.parameters()),
+                  train_samples=len(dataset), validation_samples=len(val_data['X']))
     write_json(args.out / 'config.json', config)
     print(f'设备={device}；参数量={sum(p.numel() for p in model.parameters()):,}；'
           f'训练={len(dataset)}；验证={len(val_data["X"])}', flush=True)
@@ -148,7 +152,7 @@ def train(args, device):
             best_loss, bad_epochs = val_loss, 0
             # 保存标准化参数、网格、位置和来源哈希，推理时不能重新拟合它们。
             torch.save(dict(
-                model_state_dict=model.state_dict(), model_args=model_args, opd_stats=stats,
+                model_state_dict=model.state_dict(), model_args=model_args, model_type=model_type, opd_stats=stats,
                 epoch=epoch, validation_loss=best_loss, phase_weight=args.phase_weight,
                 k_rad_per_m=torch.from_numpy(train_data['k_rad_per_m']),
                 reference_wavelength_nm=float(train_data['reference_wavelength_nm']),
@@ -197,8 +201,10 @@ def train(args, device):
 
 
 # 第十二块：模型和参数确定后，单独评价一次测试集，禁止用其选超参数。
-def evaluate(args, device):
+def evaluate(args, device, model_class=JointMLP, expected_model_type='mlp'):
     checkpoint = torch.load(args.checkpoint, map_location=device, weights_only=True)
+    if checkpoint.get('model_type', 'mlp') != expected_model_type:
+        raise ValueError('检查点模型类型与当前入口不一致，请使用相应训练脚本')
     data = load_split(args.data_dir / 'test.npz')
     reference = dict(X=np.empty((0, checkpoint['model_args']['input_dim'])),
                      k_rad_per_m=checkpoint['k_rad_per_m'].cpu().numpy(),
@@ -209,7 +215,7 @@ def evaluate(args, device):
                             ('sample_ids', 'sample_ids')]:
             if set(data[key]) & set(checkpoint[f'{part}_{stored}']):
                 raise ValueError(f'测试数据与{part}的{key}重叠，拒绝评价')
-    model = JointMLP(**checkpoint['model_args']).to(device)
+    model = model_class(**checkpoint['model_args']).to(device)
     model.load_state_dict(checkpoint['model_state_dict'])
     pred = predict(model, data, checkpoint['opd_stats'], device)
     report = metrics(data, pred, checkpoint['opd_stats'])
