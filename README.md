@@ -6,6 +6,15 @@
 
 当前已完成预处理、伪标签、按位置分区，以及不用CNN的MLP和光谱块双向LSTM联合解调训练。带全局/参考点读出的LSTM在当前验证集上改善明显，仍需多种子和独立真值验证。没有独立真值的指标不表述为测量精度。
 
+## 可编辑PPT、绘图代码与独立工程
+
+- [用户修改后的可编辑网络结构图PPT](presentations/LSTM网络结构图_可编辑版.pptx)：按桌面原文件保存，文字、图形和连线可分别编辑。
+- [全部绘图入口与代码索引](docs/11_绘图与独立工程代码索引.md)：原始/处理后光谱、包络和Hann窗、FFT/相位、MLP/LSTM对比及三版网络结构图。
+- [独立LSTM教学工程](examples/lstm_standalone/)：`model.py`、中文注释`train.py`、依赖及运行说明。
+- [独立C方案预处理代码](examples/preprocessing_c/)和[三套历史结构图](results/lstm_architecture/)。
+
+绘图默认读取仓库内的`datasets/`，无需此前电脑上的桌面路径。批量A/B/C比较入口为`scripts/compare_preprocessing_dataset.py`，`scripts/compare_preprocessing.py`保留用户修改后的单谱绘图用途。
+
 ## 数据、代码与整个课题的复现思路
 
 - [处理前数据](datasets/raw)：4000个原始CSV。

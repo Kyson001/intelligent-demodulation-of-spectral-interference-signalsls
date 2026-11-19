@@ -2,3 +2,9 @@
 datasets/raw/*.csv -text whitespace=cr-at-eol
 datasets/manifests/*.csv -text whitespace=cr-at-eol
 datasets/processed/*.npz -text
+*.pptx -text
+*.png -text
+*.pdf -text
+# 原始参考代码保留字节和原有空白，避免归档时格式化。
+reference_code/** -text whitespace=cr-at-eol
+reference_code/teacher_original/*.m -whitespace

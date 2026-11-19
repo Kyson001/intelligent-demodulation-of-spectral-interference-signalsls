@@ -1,0 +1,10 @@
+# 可编辑网络结构图
+
+[`LSTM网络结构图_可编辑版.pptx`](LSTM网络结构图_可编辑版.pptx)来自用户在桌面工程中手工修改后的文件。2026-11-19归档时使用原文件的字节一致副本，没有从绘图脚本重新生成覆盖。
+
+- 文件大小：63690字节。
+- SHA256：`9fff8886c4e69efb2d06800acc55c0f74e3f882efc56f5b8d64247bb9e80b5b9`。
+
+PNG、SVG、PDF的三套历史图见 [`../results/lstm_architecture/`](../results/lstm_architecture/)，相应绘图代码见[绘图与代码索引](../docs/11_绘图与独立工程代码索引.md)。这些历史导出图早于PPT的手工修改，不保证与修改后的PPT逐项相同。
+
+`source/original_editable/`保留原始可编辑图转换时的对象坐标清单及测量脚本，用于追溯原始重建。它不包含用户后来在PowerPoint中的手工修改；当前PPT文件是修改后版本的交付原件。

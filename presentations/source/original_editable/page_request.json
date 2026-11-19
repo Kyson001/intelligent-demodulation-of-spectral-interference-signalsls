@@ -1,0 +1,15 @@
+{
+  "slide": {
+    "width": 21.875,
+    "height": 9.166666666666666,
+    "size_mode": "source",
+    "px_per_inch": 96
+  },
+  "content_box": {
+    "left": 1.7763568394002505e-15,
+    "top": 0,
+    "width": 21.874999999999996,
+    "height": 9.166666666666666,
+    "fit": "contain"
+  }
+}

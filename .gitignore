@@ -1,6 +1,9 @@
 __pycache__/
 .pytest_cache/
 .venv-training/
+.venv/
+.venv-*/
+examples/lstm_standalone/outputs/
 *.pyc
 analysis/
 data/
@@ -19,7 +22,9 @@ datasets/*
 *.pth
 *.pdf
 *.m
+!reference_code/teacher_original/*.m
 !results/preprocessing/figures/*.pdf
 !results/lstm_comparison/*.pdf
+!results/lstm_architecture/*.pdf
 results/preprocessing/real_metrics.csv
 results/preprocessing/input_hashes.json
