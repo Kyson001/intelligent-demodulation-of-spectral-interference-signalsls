@@ -1,0 +1,16 @@
+{
+  "selected_alpha": 100.0,
+  "wide_variant": "dense",
+  "segments": 1,
+  "screening_scores": {
+    "opd_alpha1": 0.28077056537158934,
+    "phase_alpha1": 1.1088855501654324,
+    "joint_alpha1": 1.9531097951143237,
+    "joint_alpha10": 1.4685007449864185,
+    "joint_alpha100": 1.4397075399735644,
+    "dilated": 1.3020901023176665,
+    "dense": 1.2312646129081215,
+    "segments4": 1.4364918523934855
+  },
+  "test_read": false
+}

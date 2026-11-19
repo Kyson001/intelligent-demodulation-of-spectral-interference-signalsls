@@ -1,0 +1,145 @@
+{
+  "validation_samples": 600,
+  "validation_positions": 60,
+  "raw_to_clean_c_preprocessing_max_abs_diff": 0.0,
+  "device": "cuda",
+  "validation_sha256": "17AFEF81FA34A5F07D78F8E016E05411B77FD2446218129A2112CAADE267C064",
+  "checkpoint_sha256": {
+    "initial": "61AE9F652EB5937614C76A0FA37A52FBE5D6EF29288B4CFA401A0A5D3CDA3F20",
+    "second": "331AF8583AC668BC718A439E9D45C88CBE339B8D99440E177458B022DB81E1E5"
+  },
+  "checkpoint_hashes_match_before_run": true,
+  "clean_metrics": {
+    "initial": {
+      "label_status": "agreement_with_algorithmic_pseudo_labels_only",
+      "opd_um": {
+        "count": 600,
+        "mae": 2.080505496333729,
+        "rmse": 3.0822229514008037,
+        "bias": -1.0317828781873815,
+        "p95_abs": 5.3507863520157,
+        "max_abs": 15.904341874220517,
+        "position_macro_mae": 2.080505496333729
+      },
+      "phase_rad": {
+        "count": 600,
+        "mae": 0.01471593353457214,
+        "rmse": 0.019756249578231858,
+        "bias": -0.002698223941899246,
+        "p95_abs": 0.044376856079737556,
+        "max_abs": 0.08235098796943813,
+        "position_macro_mae": 0.01471593353457214
+      },
+      "phase_undefined": 0,
+      "within_training_range": {
+        "opd_um": {
+          "count": 590,
+          "mae": 1.8610747776694032,
+          "rmse": 2.4133824880408676,
+          "bias": -0.7945771998934573,
+          "p95_abs": 4.999087084730547,
+          "max_abs": 9.251378562108794,
+          "position_macro_mae": 1.8610747776694037
+        },
+        "phase_rad": {
+          "count": 590,
+          "mae": 0.014605409640515647,
+          "rmse": 0.019671958096646135,
+          "bias": -0.0023840100547466033,
+          "p95_abs": 0.04426217288827762,
+          "max_abs": 0.08235098796943813,
+          "position_macro_mae": 0.014605409640515647
+        }
+      },
+      "outside_training_range": {
+        "opd_um": {
+          "count": 10,
+          "mae": 15.026917897528921,
+          "rmse": 15.045444903596415,
+          "bias": -15.026917897528921,
+          "p95_abs": 15.846207489747782,
+          "max_abs": 15.904341874220517,
+          "position_macro_mae": 15.026917897528921
+        },
+        "phase_rad": {
+          "count": 10,
+          "mae": 0.021236843283905182,
+          "rmse": 0.02421556643622665,
+          "bias": -0.021236843283905182,
+          "p95_abs": 0.03830246858564561,
+          "max_abs": 0.04736480791411157,
+          "position_macro_mae": 0.021236843283905182
+        }
+      }
+    },
+    "second": {
+      "label_status": "agreement_with_algorithmic_pseudo_labels_only",
+      "opd_um": {
+        "count": 600,
+        "mae": 0.7804772369193392,
+        "rmse": 1.3258022416642248,
+        "bias": -0.33046445217659803,
+        "p95_abs": 1.9156950519123679,
+        "max_abs": 8.357610832428545,
+        "position_macro_mae": 0.7804772369193392
+      },
+      "phase_rad": {
+        "count": 600,
+        "mae": 0.01906673913323161,
+        "rmse": 0.024559751348070626,
+        "bias": 0.003089319729827254,
+        "p95_abs": 0.049025228356001316,
+        "max_abs": 0.08831763307610598,
+        "position_macro_mae": 0.019066739133231612
+      },
+      "phase_undefined": 0,
+      "within_training_range": {
+        "opd_um": {
+          "count": 590,
+          "mae": 0.6788134544723206,
+          "rmse": 1.004004444359461,
+          "bias": -0.2211733343949566,
+          "p95_abs": 1.8093119238070212,
+          "max_abs": 8.357610832428545,
+          "position_macro_mae": 0.6788134544723206
+        },
+        "phase_rad": {
+          "count": 590,
+          "mae": 0.018580776466328695,
+          "rmse": 0.023813633604200572,
+          "bias": 0.0039508088181379455,
+          "p95_abs": 0.0486724778285273,
+          "max_abs": 0.08831763307610598,
+          "position_macro_mae": 0.018580776466328698
+        }
+      },
+      "outside_training_range": {
+        "opd_um": {
+          "count": 10,
+          "mae": 6.778640401293444,
+          "rmse": 6.781712505465974,
+          "bias": -6.778640401293444,
+          "p95_abs": 6.999634845221946,
+          "max_abs": 7.037180112990163,
+          "position_macro_mae": 6.778640401293444
+        },
+        "phase_rad": {
+          "count": 10,
+          "mae": 0.047738536480503545,
+          "rmse": 0.05227450235126002,
+          "bias": -0.047738536480503545,
+          "p95_abs": 0.08376708302946108,
+          "max_abs": 0.08775621631801522,
+          "position_macro_mae": 0.047738536480503545
+        }
+      }
+    }
+  },
+  "scenario_count": 30,
+  "measurements": "agreement with existing algorithmic pseudo labels and drift from clean model prediction; not independent physical accuracy",
+  "raw_unit_caveat": "recorded raw intensity unit is unconfirmed; Gaussian levels are fractions of estimated background peak, not instrument SNR",
+  "cross_batch": "not evaluated; no new-date or changed-acquisition dataset is available",
+  "training_performed": false,
+  "test_accessed": false,
+  "original_or_second_checkpoint_modified": false
+}

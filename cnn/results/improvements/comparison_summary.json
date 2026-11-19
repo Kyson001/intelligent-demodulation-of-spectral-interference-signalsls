@@ -1,0 +1,39 @@
+{
+  "families": {
+    "baseline": {
+      "opd_mean": 2.689639124902925,
+      "opd_std": 0.7630310895527073,
+      "phase_mean": 0.01812928467795365,
+      "phase_std": 0.0005945083556109106,
+      "p95": 6.556663863744686
+    },
+    "balanced": {
+      "opd_mean": 0.7464570563048613,
+      "opd_std": 0.03307978151820283,
+      "phase_mean": 0.02030013865959025,
+      "phase_std": 0.0015234401704604654,
+      "p95": 1.8629948053585326
+    },
+    "multiscale": {
+      "opd_mean": 0.923823435767296,
+      "opd_std": 0.026158710906574657,
+      "phase_mean": 0.023482838380815635,
+      "phase_std": 0.003703484427977148,
+      "p95": 2.539748800995867
+    }
+  },
+  "stability_acceptance_passed": true,
+  "calibration_diagnostic_passed": false,
+  "selected": {
+    "family": "balanced",
+    "seed": 20261119,
+    "options": {
+      "alpha": 100.0,
+      "variant": "baseline",
+      "segments": 1
+    },
+    "selection": "minimum three-seed mean validation physical score, then seed validation score",
+    "checkpoint_sha256": "331af8583ac668bc718a439e9d45c88cbe339b8d99440e177458b022db81e1e5",
+    "test_not_used": true
+  }
+}
