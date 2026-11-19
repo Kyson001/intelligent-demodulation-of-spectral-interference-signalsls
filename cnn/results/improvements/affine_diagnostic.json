@@ -1,0 +1,132 @@
+{
+  "a": 1.00000585334878,
+  "b_mm": -0.00011389204684505676,
+  "fit_positions": 56,
+  "fit_source": "only original training-set internal heldout position mean predictions",
+  "raw_external_validation": {
+    "label_status": "agreement_with_algorithmic_pseudo_labels_only",
+    "opd_um": {
+      "count": 600,
+      "mae": 1.196280478494225,
+      "rmse": 1.9608266358099988,
+      "bias": -0.04021332763723935,
+      "p95_abs": 2.6523147994309126,
+      "max_abs": 11.961247162559086,
+      "position_macro_mae": 1.196280478494225
+    },
+    "phase_rad": {
+      "count": 600,
+      "mae": 0.03212747196442196,
+      "rmse": 0.04239549499599804,
+      "bias": -0.010629915958714924,
+      "p95_abs": 0.09060952439623066,
+      "max_abs": 0.12115692356735178,
+      "position_macro_mae": 0.03212747196442196
+    },
+    "phase_undefined": 0,
+    "within_training_range": {
+      "opd_um": {
+        "count": 590,
+        "mae": 1.0233228556308007,
+        "rmse": 1.3055966138039994,
+        "bias": 0.15233865371528635,
+        "p95_abs": 2.3788883224087014,
+        "max_abs": 6.355603968839773,
+        "position_macro_mae": 1.0233228556308007
+      },
+      "phase_rad": {
+        "count": 590,
+        "mae": 0.0321354419788287,
+        "rmse": 0.04253250861958382,
+        "bias": -0.011346647434530836,
+        "p95_abs": 0.0912626929498133,
+        "max_abs": 0.12115692356735178,
+        "position_macro_mae": 0.0321354419788287
+      }
+    },
+    "outside_training_range": {
+      "opd_um": {
+        "count": 10,
+        "mae": 11.400780227436256,
+        "rmse": 11.407019645003938,
+        "bias": -11.400780227436256,
+        "p95_abs": 11.892120920843196,
+        "max_abs": 11.961247162559086,
+        "position_macro_mae": 11.400780227436256
+      },
+      "phase_rad": {
+        "count": 10,
+        "mae": 0.03165724111442399,
+        "rmse": 0.03332921658722756,
+        "bias": 0.03165724111442399,
+        "p95_abs": 0.04166054442416926,
+        "max_abs": 0.04268844313235087,
+        "position_macro_mae": 0.03165724111442399
+      }
+    }
+  },
+  "calibrated_external_validation": {
+    "label_status": "agreement_with_algorithmic_pseudo_labels_only",
+    "opd_um": {
+      "count": 600,
+      "mae": 1.1927488284873757,
+      "rmse": 1.95996652047075,
+      "bias": -0.11621527943601523,
+      "p95_abs": 2.609715618397144,
+      "max_abs": 12.015154229645317,
+      "position_macro_mae": 1.1927488284873755
+    },
+    "phase_rad": {
+      "count": 600,
+      "mae": 0.03212747196442196,
+      "rmse": 0.04239549499599804,
+      "bias": -0.010629915958714924,
+      "p95_abs": 0.09060952439623066,
+      "max_abs": 0.12115692356735178,
+      "position_macro_mae": 0.03212747196442196
+    },
+    "phase_undefined": 0,
+    "within_training_range": {
+      "opd_um": {
+        "count": 590,
+        "mae": 1.0188177168360384,
+        "rmse": 1.2962528987269837,
+        "bias": 0.07596216355517572,
+        "p95_abs": 2.328602702659967,
+        "max_abs": 6.290227616601723,
+        "position_macro_mae": 1.0188177168360382
+      },
+      "phase_rad": {
+        "count": 590,
+        "mae": 0.0321354419788287,
+        "rmse": 0.04253250861958382,
+        "bias": -0.011346647434530836,
+        "p95_abs": 0.0912626929498133,
+        "max_abs": 0.12115692356735178,
+        "position_macro_mae": 0.0321354419788287
+      }
+    },
+    "outside_training_range": {
+      "opd_um": {
+        "count": 10,
+        "mae": 11.45468441591628,
+        "rmse": 11.460894494407702,
+        "bias": -11.45468441591628,
+        "p95_abs": 11.946025112009613,
+        "max_abs": 12.015154229645317,
+        "position_macro_mae": 11.45468441591628
+      },
+      "phase_rad": {
+        "count": 10,
+        "mae": 0.03165724111442399,
+        "rmse": 0.03332921658722756,
+        "bias": 0.03165724111442399,
+        "p95_abs": 0.04166054442416926,
+        "max_abs": 0.04268844313235087,
+        "position_macro_mae": 0.03165724111442399
+      }
+    }
+  },
+  "diagnostic_only": true,
+  "applied_to_final_model": false
+}

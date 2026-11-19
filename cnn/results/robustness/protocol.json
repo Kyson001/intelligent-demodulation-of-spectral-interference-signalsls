@@ -1,0 +1,53 @@
+{
+  "scope": "recommendation 6 robustness evaluation only; no augmentation training",
+  "data": "existing validation split only; 600 spectra / 60 positions; no test split read",
+  "models": {
+    "initial": "cnn/models/initial.pt",
+    "initial_sha256_before": "61AE9F652EB5937614C76A0FA37A52FBE5D6EF29288B4CFA401A0A5D3CDA3F20",
+    "second": "cnn/models/second.pt",
+    "second_sha256_before": "331AF8583AC668BC718A439E9D45C88CBE339B8D99440E177458B022DB81E1E5"
+  },
+  "raw_source": "datasets/raw/{sample_id}.csv",
+  "preprocessing": "re-run the existing C pipeline from raw wavelength/intensity for every condition",
+  "clean_reproduction_acceptance": "each validation C input must match saved X exactly",
+  "noise": {
+    "distribution": "zero-mean additive Gaussian in recorded raw intensity units",
+    "scale": "sigma is the stated fraction of that spectrum's 100-point Gaussian-smoothed background peak",
+    "fractions": [
+      0.001,
+      0.0025,
+      0.005,
+      0.01,
+      0.02,
+      0.05
+    ],
+    "replicates": 3,
+    "seeds": [
+      2026111801,
+      2026111802,
+      2026111803
+    ],
+    "interpretation": "dimensionless synthetic stress levels, not instrument SNR; raw intensity unit is unconfirmed",
+    "actual_seed_derivation": "base_seed + int(level_fraction * 1e6) for each replicate and level"
+  },
+  "envelope": {
+    "tilt": "I multiplied by exp(sign * log(1+level) * t), t in [-0.5,0.5]; endpoint ratio=(1+level)^sign",
+    "curvature": "I multiplied by exp(sign * log(1+level) * (4*t^2 - mean(4*t^2))); edge/center ratio=(1+level)^sign",
+    "levels": [
+      0.05,
+      0.1,
+      0.2
+    ],
+    "intensity": "multiply raw intensity, then run the same C pipeline"
+  },
+  "labels": "keep original algorithmic pseudo labels for input-stability comparison; they are not independent truth",
+  "metrics": [
+    "OPD MAE, RMSE, bias, P95 and max absolute error versus pseudo labels",
+    "phase circular MAE/RMSE versus pseudo labels and undefined-vector count",
+    "position-macro MAE",
+    "prediction drift from each model's clean prediction"
+  ],
+  "selection": "no model selection, no checkpoint modification, no training, no calibration, no test-set access",
+  "source_intensity_units_confirmed": false,
+  "cross_batch_evidence": false
+}

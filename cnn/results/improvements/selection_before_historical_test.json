@@ -1,0 +1,12 @@
+{
+  "family": "balanced",
+  "seed": 20261119,
+  "options": {
+    "alpha": 100.0,
+    "variant": "baseline",
+    "segments": 1
+  },
+  "selection": "minimum three-seed mean validation physical score, then seed validation score",
+  "checkpoint_sha256": "331af8583ac668bc718a439e9d45c88cbe339b8d99440e177458b022db81e1e5",
+  "test_not_used": true
+}

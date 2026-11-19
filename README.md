@@ -108,3 +108,7 @@ python -X utf8 scripts/verify_dataset_package.py "桌面数据包路径" --verif
 - `docs/`：材料分析、方案、预处理协议及实验报告。
 
 后续展示目标为PPT、网页、文档、代码及可复现结果。
+
+## CNN 联合解调成果
+
+新增独立 [cnn/ 成果目录与阅读导航](cnn/README.md)：包含单文件 PyTorch 程序、初版和第二版权重、神经网络图、逐步说明，以及第二版优化与鲁棒性评价结果。数据沿用本仓库 datasets/，不与其他模型目录混用。
