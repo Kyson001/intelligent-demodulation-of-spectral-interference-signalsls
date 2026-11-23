@@ -6,6 +6,12 @@
 
 当前已完成预处理、伪标签、按位置分区，以及不用CNN的MLP和光谱块双向LSTM联合解调训练。带全局/参考点读出的LSTM在当前验证集上改善明显，仍需多种子和独立真值验证。没有独立真值的指标不表述为测量精度。
 
+## 项目演示与汇报材料
+
+- [在线演示网页](https://spi-ranging-02068.app.workbuddy.host/?sharecode=D2E634QZMI)
+- [课程汇报 PPT（2.0）](presentations/2.0.pptx)
+- [光谱干涉智能解调 · CNN 与 BiLSTM 对比报告（PDF）](<presentations/光谱干涉智能解调 · CNN 与 BiLSTM 对比报告.pdf>)
+
 ## 可编辑PPT、绘图代码与独立工程
 
 - [用户修改后的可编辑网络结构图PPT](presentations/LSTM网络结构图_可编辑版.pptx)：按桌面原文件保存，文字、图形和连线可分别编辑。
