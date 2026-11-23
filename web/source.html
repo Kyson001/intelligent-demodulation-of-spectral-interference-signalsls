@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>源码与模型 · 光谱干涉智能解调</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>源码与模型</h1>
+    <nav class="nav"><a href="./">返回解调工作台</a></nav>
+  </header>
+  <main class="wrap">
+    <section class="card">
+      <h2>10001 点原始光谱联合解调</h2>
+      <p>传统峰间距和局部傅里叶相位算法提供离线训练标签。新版 CNN 和双向 LSTM 直接接收原始强度，预测时跳过 C 方案。</p>
+      <ul class="source-links">
+        <li><a href="https://github.com/Kyson001/intelligent-demodulation-of-spectral-interference-signalsls/tree/main/web">网页和 Flask 源码</a></li>
+        <li><a href="https://github.com/Kyson001/intelligent-demodulation-of-spectral-interference-signalsls/blob/main/src/demodulation/raw_models.py">CNN 和双向 LSTM 模型定义</a></li>
+        <li><a href="https://github.com/Kyson001/intelligent-demodulation-of-spectral-interference-signalsls/tree/main/results/raw_demodulation">权重、测试结果和复现说明</a></li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

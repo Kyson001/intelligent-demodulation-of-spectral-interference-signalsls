@@ -39,4 +39,4 @@ $env:MKL_NUM_THREADS = '1'
 python scripts/benchmark_raw_demodulation.py --out analysis/raw_benchmark_replay
 ```
 
-从头训练使用 `python scripts/train_raw_demodulation.py --device cuda --out analysis/raw_train --epochs 140`。此次训练环境为 PyTorch 2.5.1+cu121 和 RTX 4060 Laptop GPU。计时使用 CPU 版 PyTorch 2.15.0。现有 WorkBuddy 网页继续使用历史权重，原始光谱权重可从本目录取得。
+从头训练使用 `python scripts/train_raw_demodulation.py --device cuda --out analysis/raw_train --epochs 140`。此次训练环境为 PyTorch 2.5.1+cu121 和 RTX 4060 Laptop GPU。计时使用 CPU 版 PyTorch 2.15.0。[新版在线演示](https://kyson001.github.io/intelligent-demodulation-of-spectral-interference-signalsls/) 在浏览器运行同一组模型的 ONNX 导出权重。

@@ -1,0 +1,19 @@
+{
+  "input_points": 10001,
+  "reference_wavelength_nm": 1560,
+  "outputs": [
+    "opd_m",
+    "phase_sin",
+    "phase_cos"
+  ],
+  "models": {
+    "cnn": {
+      "checkpoint_sha256": "56d45275aa3f64363e54b1b3d87ca6839bdb26da55ba92e3d50beb3894b98aeb",
+      "onnx_sha256": "85bbd2a619fd93c98fc5b202fc4f45f72cf1c3c87227edf08d26ecf9233c453c"
+    },
+    "bilstm": {
+      "checkpoint_sha256": "a0136fdd2fb4aa4974d247636cc6c03cbcf7738af188fbbe0abbf67f41777fa0",
+      "onnx_sha256": "5cd1c005775f1e76f1725de9059976d29469c07a681734ba90bf9956f7d9be03"
+    }
+  }
+}

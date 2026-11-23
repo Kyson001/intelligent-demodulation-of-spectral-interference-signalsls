@@ -1,5 +1,7 @@
 __pycache__/
 .pytest_cache/
+web/node_modules/
+web/dist/
 .venv-training/
 .venv/
 .venv-*/

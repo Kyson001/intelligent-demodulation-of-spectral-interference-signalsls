@@ -8,7 +8,9 @@
 
 ## 项目演示与汇报材料
 
-- [在线演示网页（现有 2048 点版本）](https://spi-ranging-02068.app.workbuddy.host/?sharecode=D2E634QZMI)
+- [在线演示网页（10001 点原始光谱版）](https://kyson001.github.io/intelligent-demodulation-of-spectral-interference-signalsls/)
+- [网页源码与部署说明](web/README.md)
+- [WorkBuddy 历史演示（2048 点版本）](https://spi-ranging-02068.app.workbuddy.host/?sharecode=D2E634QZMI)
 - [课程汇报 PPT（2.0）](presentations/2.0.pptx)
 - [光谱干涉智能解调 · CNN 与 BiLSTM 历史对比报告（PDF）](<presentations/光谱干涉智能解调 · CNN 与 BiLSTM 对比报告.pdf>)
 

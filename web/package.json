@@ -1,0 +1,16 @@
+{
+  "name": "spectral-demodulation-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "fflate": "0.8.3",
+    "onnxruntime-web": "1.22.0",
+    "read-excel-file": "9.3.20"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}
