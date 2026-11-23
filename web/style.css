@@ -36,8 +36,6 @@ tr:hover td{background:#f8fafc}
 .error-list{color:#991b1b;overflow-wrap:anywhere;font-size:13px;max-height:200px;overflow:auto}
 .result-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .result-heading h2{margin-bottom:0}
-#results-panel .scroll,details{margin-top:12px}
-summary{cursor:pointer}
-tbody th{text-align:left;position:static}
+#results-panel .scroll{margin-top:12px}
 td{font-variant-numeric:tabular-nums}
 @media(max-width:620px){.topbar{padding:18px 15px}.wrap{padding:16px 12px 36px}.card{padding:16px}.field{width:100%}}

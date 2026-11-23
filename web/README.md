@@ -6,14 +6,14 @@
 
 [10001 点原始光谱版](https://kyson001.github.io/intelligent-demodulation-of-spectral-interference-signalsls/)
 
-GitHub Pages 版本使用浏览器内的 ONNX Runtime 解调，文件留在本机。页面支持单文件、多文件、文件夹、逐条结果、顺序汇总和 CSV 导出。网页上的对照耗时来自仓库单线程 PyTorch CPU 实验。
+GitHub Pages 版本使用浏览器内的 ONNX Runtime 解调，文件留在本机。支持选取单个文件、多个文件或文件夹。解调后按顺序显示光谱来源、光程差和距离，导出的 CSV 也包含相位结果。
 
 ## 光谱格式
 
 - 波长从 **1510 nm 到 1610 nm**，按 **0.01 nm** 递增，每条 **10001 点**。点数或网格不符时，页面会指出对应文件。
 - CSV、TXT、DAT、TSV、PRN 使用波长和强度两列，可包含表头。XLSX/XLSM 的首列为波长，随后每列是一条强度记录。旧版 XLS 可先另存为 XLSX。
 - NPY、NPZ 和 JSON 可提供波长与数值强度数组。含 `wavelength_nm` 或 `wavelength` 的结构化文件使用显式波长。仅提供强度的数组须由采集端保证满足同一波长网格。
-- 页面以微米显示 OPD，以弧度显示包裹相位。OPD/2 列是光程差的一半。
+- 页面以微米显示光程差和距离。距离按光程差除以二计算，CSV 中的包裹相位单位为弧度。
 
 ## 本地或 WorkBuddy 部署
 

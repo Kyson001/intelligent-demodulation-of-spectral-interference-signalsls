@@ -9,13 +9,12 @@
 <body>
   <header class="topbar">
     <h1>光谱干涉智能解调系统</h1>
-    <p>输入 10001 点原始光谱，输出光程差与 1560 nm 包裹相位</p>
+    <p>输入 10001 点原始光谱，查看光程差和距离</p>
     <nav class="nav"><a href="./">解调工作台</a><a href="./source.html">源码与模型</a></nav>
   </header>
   <main class="wrap">
     <section class="card" aria-labelledby="input-title">
       <h2 id="input-title">选择模型和光谱</h2>
-      <p>为了提高预测速度，CNN 和双向 LSTM 直接读取原始强度。预测时跳过 C 方案。</p>
       <p class="hint">每条光谱须有 <b>10001 点</b>，波长按 <b>1510–1610 nm、间隔 0.01 nm</b> 递增。CSV、TXT、DAT、TSV、PRN 读取波长和强度两列。也支持 XLSX、XLSM、NPY、NPZ 和 JSON。</p>
       <p class="hint" id="processing-location"></p>
       <form id="demodulate-form" class="row">
@@ -48,33 +47,10 @@
       <p id="cnn-summary" class="hint"></p>
       <div class="scroll">
         <table id="cnn-table">
-          <thead><tr><th scope="col">顺序</th><th scope="col">光谱来源</th><th scope="col">光程差（μm）</th><th scope="col">OPD/2（μm）</th><th scope="col">相位 sin</th><th scope="col">相位 cos</th><th scope="col">包裹相位（rad）</th><th scope="col">相位向量模长</th></tr></thead>
+          <thead><tr><th scope="col">顺序</th><th scope="col">光谱来源</th><th scope="col">光程差（μm）</th><th scope="col">距离（μm）</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
-      <details>
-        <summary>按输入顺序每 10 条汇总</summary>
-        <div class="scroll">
-          <table id="cnn-pos-table">
-            <thead><tr><th scope="col">组</th><th scope="col">条数</th><th scope="col">OPD 均值（μm）</th><th scope="col">OPD 标准差（μm）</th><th scope="col">顺序范围</th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </details>
-    </section>
-    <section class="card" aria-labelledby="benchmark-title">
-      <h2 id="benchmark-title">同一测试集上的模型对比</h2>
-      <div class="scroll">
-        <table class="benchmarks">
-          <thead><tr><th scope="col">方法</th><th scope="col">单帧中位耗时（ms）</th><th scope="col">光程差 MAE（μm）</th><th scope="col">相位圆周 MAE（rad）</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">传统算法</th><td>9.65</td><td colspan="2">伪标签来源</td></tr>
-            <tr><th scope="row">原始光谱 CNN</th><td>1.31</td><td>1.103</td><td>0.01410</td></tr>
-            <tr><th scope="row">原始光谱双向 LSTM</th><td>0.97</td><td>10.203</td><td>0.02721</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="hint">600 条测试光谱。耗时来自单线程 PyTorch CPU 基准，从内存中的原始光谱开始。误差以传统算法伪标签为参考。</p>
     </section>
   </main>
   <script type="module" src="./app.js"></script>

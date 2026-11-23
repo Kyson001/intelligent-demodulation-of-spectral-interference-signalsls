@@ -61,23 +61,10 @@ function showResults(model, values) {
   resultModel = model;
   element('results-panel').hidden = values.length === 0;
   const table = document.querySelector('#cnn-table tbody');
-  const groups = document.querySelector('#cnn-pos-table tbody');
   table.replaceChildren();
-  groups.replaceChildren();
-  element('cnn-summary').textContent = `${models[model]}，成功解调 ${values.length} 条光谱。`;
+  element('cnn-summary').textContent = `${models[model]}，成功解调 ${values.length} 条光谱。距离为光程差的一半。`;
   for (const row of values) {
-    addRow(table, [
-      row.order, row.name, row.opd_um.toFixed(4), (row.opd_um / 2).toFixed(4),
-      row.phase_sin.toFixed(6), row.phase_cos.toFixed(6),
-      row.phase_rad?.toFixed(6) ?? '—', row.phase_norm.toFixed(6),
-    ]);
-  }
-  for (let start = 0; start < values.length; start += 10) {
-    const group = values.slice(start, start + 10);
-    const mean = group.reduce((sum, row) => sum + row.opd_um, 0) / group.length;
-    const std = Math.sqrt(group.reduce((sum, row) => sum + (row.opd_um - mean) ** 2, 0) / group.length);
-    addRow(groups, [start / 10 + 1, group.length, mean.toFixed(4), std.toFixed(4),
-                    `${group[0].order}–${group.at(-1).order}`]);
+    addRow(table, [row.order, row.name, row.opd_um.toFixed(4), (row.opd_um / 2).toFixed(4)]);
   }
 }
 
