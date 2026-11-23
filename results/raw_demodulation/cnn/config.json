@@ -1,0 +1,26 @@
+{
+  "model": "cnn",
+  "input_points": 10001,
+  "reference_nm": 1560.0,
+  "stats": {
+    "mean_mm": 6.190679011683504,
+    "std_mm": 2.3390622527081475,
+    "min_mm": 2.3093092114589338,
+    "max_mm": 10.24009785108235
+  },
+  "seed": 20261123,
+  "batch_size": 64,
+  "learning_rate": 0.001,
+  "opd_loss_weight": 40,
+  "epoch_limit": 140,
+  "patience": 24,
+  "parameters": 149019,
+  "torch": "2.5.1+cu121",
+  "numpy": "2.4.4",
+  "device": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "split_sha256": {
+    "train": "dd5b1ef4cbb3bcb49041841964fec3637f6732639ea3b5064c82b6e729959769",
+    "validation": "17afef81fa34a5f07d78f8e016e05411b77fd2446218129a2112caade267c064"
+  },
+  "selection": "validation position-macro OPD MAE / 5 um + phase circular MAE / 0.03 rad"
+}

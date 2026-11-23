@@ -19,6 +19,7 @@ datasets/*
 !datasets/processed/*.npz
 *.pt
 !results/lstm_comparison/runs/*/best.pt
+!results/raw_demodulation/models/*.pt
 *.pth
 *.pdf
 *.m

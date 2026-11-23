@@ -4,13 +4,34 @@
 
 研究对象：迈克尔逊干涉仪，目标为光程差（OPD）与参考波长处的相位联合估计。
 
-当前已完成预处理、伪标签、按位置分区，以及不用CNN的MLP和光谱块双向LSTM联合解调训练。带全局/参考点读出的LSTM在当前验证集上改善明显，仍需多种子和独立真值验证。没有独立真值的指标不表述为测量精度。
+为了提高预测速度，我们将 **10001 点原始光谱**直接输入 CNN 或双向 LSTM，输出**光程差（OPD）和 1560 nm 处的包裹相位**。预测时跳过 C 方案的等波数插值、包络补偿、加窗和 2048 点重采样。训练沿用由传统解调离线生成的伪标签。
 
 ## 项目演示与汇报材料
 
-- [在线演示网页](https://spi-ranging-02068.app.workbuddy.host/?sharecode=D2E634QZMI)
+- [在线演示网页（现有 2048 点版本）](https://spi-ranging-02068.app.workbuddy.host/?sharecode=D2E634QZMI)
 - [课程汇报 PPT（2.0）](presentations/2.0.pptx)
-- [光谱干涉智能解调 · CNN 与 BiLSTM 对比报告（PDF）](<presentations/光谱干涉智能解调 · CNN 与 BiLSTM 对比报告.pdf>)
+- [光谱干涉智能解调 · CNN 与 BiLSTM 历史对比报告（PDF）](<presentations/光谱干涉智能解调 · CNN 与 BiLSTM 对比报告.pdf>)
+
+## 原始光谱联合解调
+
+两个模型用同一按位置划分的 2800 条光谱训练、600 条验证选模，冻结后在同一份 600 条、60 个位置的测试集上比较。输入为 1510–1610 nm、步长 0.01 nm 的原始波长网格。预测入口检查网格并将记录的强度送入模型。模型图内保留轻量归一化和特征提取层。
+
+| 方法 | 单帧 P50 / ms | 单帧 P95 / ms | OPD MAE / μm | 相位圆周 MAE / rad |
+|---|---:|---:|---:|---:|
+| 传统峰间距＋局部傅里叶相位 | 9.65 | 12.07 | 伪标签来源 | 伪标签来源 |
+| 原始光谱 CNN | 1.31 | 1.77 | **1.103** | **0.01410** |
+| 原始光谱 BiLSTM | **0.97** | **1.34** | 10.203 | 0.02721 |
+
+时间在同一 CPU 单线程测量，由已读入内存的原始波长与强度到两个解调结果，包含各自必要的处理。CNN 和 BiLSTM 中位延迟约为传统流程的 1/7.35 和 1/9.97。误差以传统算法伪标签为参考，实际测量精度仍需独立标定。
+
+在仓库根目录预测一条原始 CSV：
+
+```powershell
+python scripts/predict_raw_demodulation.py --model cnn datasets/raw/file0001.csv
+python scripts/predict_raw_demodulation.py --model bilstm datasets/raw/file0001.csv
+```
+
+[原始光谱模型权重、对比结果与复现步骤](results/raw_demodulation/README.md)
 
 ## 可编辑PPT、绘图代码与独立工程
 
@@ -31,7 +52,7 @@
 
 原始CSV及处理后数组均已放在仓库内；下载后可直接使用，也可从原始数据重新计算。
 
-## LSTM联合解调与MLP比较
+## 历史实验：2048 点 LSTM 与 MLP
 
 完整中文讲解见[LSTM手把手教程](docs/10_LSTM联合解调手把手教程与MLP对比.md)，代码为[网络定义](src/demodulation/joint_lstm.py)和[训练入口](scripts/train_joint_lstm.py)。输入按波数轴组织成256个连续8点块，没有卷积、抽点或重复谱拼接。
 
@@ -52,7 +73,7 @@
 
 ![MLP与LSTM联合解调比较](results/lstm_comparison/mlp_vs_lstm.png)
 
-## 不用CNN的联合网络入门
+## 历史教程：2048 点联合解调
 
 详见[手把手教程](docs/09_不用CNN的联合解调网络手把手教程.md)。[网络、数据和损失](src/demodulation/joint_mlp.py)与[训练入口](scripts/train_joint_mlp.py)均有分块中文注释。
 
@@ -113,8 +134,6 @@ python -X utf8 scripts/verify_dataset_package.py "桌面数据包路径" --verif
 - `results/preprocessing/`：汇总、逐样本结果和可编辑图表。
 - `docs/`：材料分析、方案、预处理协议及实验报告。
 
-后续展示目标为PPT、网页、文档、代码及可复现结果。
-
-## CNN 联合解调成果
+## 历史实验：2048 点 CNN
 
 新增独立 [cnn/ 成果目录与阅读导航](cnn/README.md)：包含单文件 PyTorch 程序、初版和第二版权重、神经网络图、逐步说明，以及第二版优化与鲁棒性评价结果。数据沿用本仓库 datasets/，不与其他模型目录混用。

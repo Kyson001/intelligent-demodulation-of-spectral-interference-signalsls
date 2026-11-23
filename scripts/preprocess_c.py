@@ -52,12 +52,8 @@ def read_spectrum(path):
     return data[:, 0], data[:, 1]
 
 
-def preprocess_spectrum(wavelength_nm, intensity, config=CConfig()):
-    """处理一条光谱，返回网络输入、实际坐标、每个中间步骤和质量记录。
-
-    训练和未来网页推理都可以调用此函数。计算阶段用float64；最终网络输入用float32。
-    不默认剔除零值、不自动删除尖峰、不自动取对数，避免修改真实条纹。
-    """
+def prepare_dense_spectrum(wavelength_nm, intensity, config=CConfig()):
+    """准备传统解调需要的高分辨率光谱，保留加窗前后的结果。"""
     config.validate()
     wavelength_nm = np.asarray(wavelength_nm, dtype=np.float64)
     original = np.asarray(intensity, dtype=np.float64)
@@ -119,6 +115,20 @@ def preprocess_spectrum(wavelength_nm, intensity, config=CConfig()):
     hann = windows.hann(len(k_dense), sym=False)
     windowed_c = envelope_corrected*hann
 
+    return dict(
+        k_dense=k_dense, intensity_k=intensity_k, background=background, denominator=denominator,
+        background_removed=background_removed, envelope_corrected=envelope_corrected,
+        hann=hann, windowed_c=windowed_c, weak_mask=weak_mask,
+        quality=dict(raw_min=float(original.min()), raw_max=float(original.max()),
+                     background_peak=background_peak, weak_fraction=float(weak_mask.mean())),
+    )
+
+
+def preprocess_spectrum(wavelength_nm, intensity, config=CConfig()):
+    """处理一条光谱，返回网络输入、坐标、高分辨率中间结果与质量记录。"""
+    stages = prepare_dense_spectrum(wavelength_nm, intensity, config)
+    k_dense, windowed_c = stages['k_dense'], stages['windowed_c']
+
     # ==================== 第9块：抗混叠降采样 ====================
     # 多相FIR先低通再改变采样率，不能替换成简单隔点抽样。
     # line延拓减少边界跳变。返回长度是model_points；输出坐标按实际采样率计算。
@@ -142,16 +152,8 @@ def preprocess_spectrum(wavelength_nm, intensity, config=CConfig()):
 
     # ==================== 第11块：返回结果、保留全部中间步骤 ====================
     # quality用于判断问题来自哪一步；不是OPD/相位真值或真实SNR。
-    return dict(
-        X=x_model, k_model=k_model, k_dense=k_dense,
-        intensity_k=intensity_k, background=background, denominator=denominator,
-        background_removed=background_removed, envelope_corrected=envelope_corrected,
-        hann=hann, windowed_c=windowed_c, resampled_c=resampled,
-        weak_mask=weak_mask,
-        quality=dict(raw_min=float(original.min()), raw_max=float(original.max()),
-                     background_peak=background_peak,
-                     weak_fraction=float(weak_mask.mean()),
-                     mean_before_normalization=mean_before, rms_before_normalization=rms_before))
+    quality = dict(stages['quality'], mean_before_normalization=mean_before, rms_before_normalization=rms_before)
+    return dict(X=x_model, k_model=k_model, resampled_c=resampled, **dict(stages, quality=quality))
 
 
 # ==================== 第12块：批量处理、保存并生成分组核对表 ====================

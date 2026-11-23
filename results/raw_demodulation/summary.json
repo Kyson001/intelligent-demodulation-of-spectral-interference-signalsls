@@ -1,0 +1,130 @@
+{
+  "input_points": 10001,
+  "reference_nm": 1560.0,
+  "test_spectra": 600,
+  "test_positions": 60,
+  "test_sha256": "231d7639ae80d3c1c489751f8deb74c7efca082fb558d4ed049773a067a95188",
+  "accuracy_reference": "traditional pseudo labels, not independent instrument truth",
+  "timing_scope": "warmed batch=1 from raw arrays in memory to OPD/phase; excludes CSV loading and model startup",
+  "traditional_path": "high-resolution C stages, peak spacing, Fourier phase, and QC; skips unused model resampling",
+  "threads": 1,
+  "repeats": 3,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+  "torch": "2.15.0+cpu",
+  "numpy": "2.1.3",
+  "scipy": "1.15.3",
+  "timing_ms": {
+    "traditional": {
+      "p50": 9.65235,
+      "p95": 12.067879999999999,
+      "n": 1800
+    },
+    "cnn": {
+      "p50": 1.3135,
+      "p95": 1.7719449999999999,
+      "n": 1800
+    },
+    "bilstm": {
+      "p50": 0.9681,
+      "p95": 1.3438400000000001,
+      "n": 1800
+    }
+  },
+  "test_metrics": {
+    "cnn": {
+      "opd_um_count": 600,
+      "opd_um_mae": 1.1030181361696532,
+      "opd_um_rmse": 1.8877095776792503,
+      "opd_um_bias": -0.21115123510850786,
+      "opd_um_p95_abs": 3.569664756118375,
+      "opd_um_position_macro_mae": 1.1030181361696532,
+      "phase_rad_count": 598,
+      "phase_rad_mae": 0.014097590542186293,
+      "phase_rad_rmse": 0.01922941968869251,
+      "phase_rad_bias": -0.0011503121136568347,
+      "phase_rad_p95_abs": 0.04214433313632744,
+      "phase_rad_position_macro_mae": 0.01408424088017707,
+      "phase_undefined_predictions": 0,
+      "label_status": "agreement_with_algorithmic_pseudo_labels_only",
+      "within_training_opd_range": {
+        "opd_um_count": 590,
+        "opd_um_mae": 0.9584608044851562,
+        "opd_um_rmse": 1.4319412397373292,
+        "opd_um_bias": -0.05147751527043207,
+        "opd_um_p95_abs": 2.7687615051855063,
+        "opd_um_position_macro_mae": 0.9584608044851561,
+        "phase_rad_count": 588,
+        "phase_rad_mae": 0.014232723673196356,
+        "phase_rad_rmse": 0.019373520801050443,
+        "phase_rad_bias": -0.0011322238274807889,
+        "phase_rad_p95_abs": 0.042365845061857324,
+        "phase_rad_position_macro_mae": 0.014218689667319147
+      },
+      "outside_training_opd_range": {
+        "opd_um_count": 10,
+        "opd_um_mae": 9.631900705554981,
+        "opd_um_rmse": 9.634830556379814,
+        "opd_um_bias": -9.631900705554981,
+        "opd_um_p95_abs": 9.898401496308534,
+        "opd_um_position_macro_mae": 9.631900705554981,
+        "phase_rad_count": 10,
+        "phase_rad_mae": 0.006151762438794473,
+        "phase_rad_rmse": 0.0065331656698844045,
+        "phase_rad_bias": -0.0022139033408083097,
+        "phase_rad_p95_abs": 0.009236556816893794,
+        "phase_rad_position_macro_mae": 0.006151762438794473
+      },
+      "epoch": 125,
+      "parameters": 149019,
+      "checkpoint_sha256": "56d45275aa3f64363e54b1b3d87ca6839bdb26da55ba92e3d50beb3894b98aeb"
+    },
+    "bilstm": {
+      "opd_um_count": 600,
+      "opd_um_mae": 10.203138066786618,
+      "opd_um_rmse": 16.440697902320476,
+      "opd_um_bias": -2.9347098878439946,
+      "opd_um_p95_abs": 45.53944716408075,
+      "opd_um_position_macro_mae": 10.203138066786616,
+      "phase_rad_count": 598,
+      "phase_rad_mae": 0.027206086297383834,
+      "phase_rad_rmse": 0.03821115034759672,
+      "phase_rad_bias": 0.0023827366030422163,
+      "phase_rad_p95_abs": 0.07447335101203204,
+      "phase_rad_position_macro_mae": 0.027182019939103897,
+      "phase_undefined_predictions": 0,
+      "label_status": "agreement_with_algorithmic_pseudo_labels_only",
+      "within_training_opd_range": {
+        "opd_um_count": 590,
+        "opd_um_mae": 10.13499260344001,
+        "opd_um_rmse": 16.471617417872636,
+        "opd_um_bias": -2.743370726549204,
+        "opd_um_p95_abs": 45.67072114385755,
+        "opd_um_position_macro_mae": 10.134992603440008,
+        "phase_rad_count": 588,
+        "phase_rad_mae": 0.02718783916581301,
+        "phase_rad_rmse": 0.038346699462400206,
+        "phase_rad_bias": 0.0019423236603431325,
+        "phase_rad_p95_abs": 0.07568374387693147,
+        "phase_rad_position_macro_mae": 0.027163426757838734
+      },
+      "outside_training_opd_range": {
+        "opd_um_count": 10,
+        "opd_um_mae": 14.223720404236625,
+        "opd_um_rmse": 14.500214123824026,
+        "opd_um_bias": -14.223720404236625,
+        "opd_um_p95_abs": 18.95399862183516,
+        "opd_um_position_macro_mae": 14.223720404236625,
+        "phase_rad_count": 10,
+        "phase_rad_mae": 0.028279017633748384,
+        "phase_rad_rmse": 0.02915311137827413,
+        "phase_rad_bias": 0.028279017633748384,
+        "phase_rad_p95_abs": 0.03944485224864656,
+        "phase_rad_position_macro_mae": 0.028279017633748384
+      },
+      "epoch": 129,
+      "parameters": 141379,
+      "checkpoint_sha256": "a0136fdd2fb4aa4974d247636cc6c03cbcf7738af188fbbe0abbf67f41777fa0"
+    }
+  }
+}
