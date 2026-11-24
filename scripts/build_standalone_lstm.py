@@ -66,7 +66,7 @@ header = '''r"""独立LSTM训练入口：你只需要运行这个文件，不需
 快速检查：.\\.venv\\Scripts\\python.exe -X utf8 train.py --epochs 2
 正式训练：.\\.venv\\Scripts\\python.exe -X utf8 train.py --epochs 100
 文件分工：model.py定义整个网络；本文件读取数据、训练、验证并保存权重。
-现有数据已执行C方案处理；标签来自传统算法，误差表示与伪标签的一致性。
+现有数据已执行预处理；标签来自传统算法，误差表示与伪标签的一致性。
 """
 import argparse
 import csv

@@ -63,7 +63,7 @@ class RawCNN(nn.Module):
 
     def forward(self, x):
         # This inexpensive tensor normalization belongs to the network graph.
-        # The caller supplies the original recorded intensities and skips scheme C.
+        # The caller supplies the original recorded intensities without the traditional preprocessing pipeline.
         x = F.layer_norm(x, (RAW_POINTS,))
         return self.readout(self.features(x.unsqueeze(1)).transpose(1, 2))
 

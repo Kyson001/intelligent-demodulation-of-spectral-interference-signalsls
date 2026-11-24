@@ -61,7 +61,7 @@ ax.text(60, 121, 'LSTM光程差与相位联合解调网络', fontsize=21, fontwe
 ax.text(60, 116.5, 'B 为批量大小；每条光谱独立输入', fontsize=12,
         color=line, ha='center', va='center')
 
-box(60, 108, 64, 8, '#F4F6F8', '#8799A5', 'C方案光谱输入\n[B, 2048]', fontsize=14)
+box(60, 108, 64, 8, '#F4F6F8', '#8799A5', '预处理光谱输入\n[B, 2048]', fontsize=14)
 arrow((60, 103.8), (60, 100))
 box(60, 95, 64, 9, blue_fill, blue_edge,
     '连续8点分块（Reshape）\n[B, 256, 8]', fontsize=14)

@@ -93,7 +93,7 @@ loader = DataLoader(dataset, batch_size=64, shuffle=True, num_workers=0)
 结构：
 
 ```text
-2048点C方案光谱
+2048点预处理光谱
         ↓
 Linear(2048, 256) → LayerNorm → GELU → Dropout
         ↓
@@ -184,7 +184,7 @@ with torch.inference_mode():
 
 默认批量64、学习率0.001、Dropout 0.1、相位权重1.0。验证联合损失连续20轮没有改善时早停，最后恢复最佳模型。已经存在的输出目录会报错，换一个`--out`即可。
 
-若使用桌面的简化数据包，可追加`--data-dir 'C:\Users\Kyson\Desktop\迈克尔逊光谱_C方案_分组数据集_20261117'`。目录中需有同名的三份NPZ；训练只需要其中train和validation。
+若使用桌面的简化数据包，可追加`--data-dir '你的数据包目录'`。目录中需有同名的三份NPZ；训练只需要其中train和validation。
 
 以后一次改一个因素，例如学习率`--lr 0.0003`、相位权重`--phase-weight 0.5`，用验证结果比较。不得根据测试结果反复选参。最终应比较多个种子和更有针对性的非CNN结构。
 
@@ -198,7 +198,7 @@ with torch.inference_mode():
 | `validation_metrics.json` | OPD的μm误差、相位的圆周rad误差及训练均值基线 |
 | `validation_predictions.csv` | 每条光谱的预测、标签、误差、位置和质量标记 |
 
-恢复模型时需先创建同一结构，再`load_state_dict()`。OPD反标准化必须使用检查点内的训练参数；新光谱必须执行同一C预处理并匹配波数网格、1560 nm相位参考。不要把原始CSV强度直接喂入本模型。
+恢复模型时需先创建同一结构，再`load_state_dict()`。OPD反标准化必须使用检查点内的训练参数；新光谱必须执行同一预处理并匹配波数网格、1560 nm相位参考。不要把原始CSV强度直接喂入本模型。
 
 ## 11. 本次已经实际跑过的教学实验
 

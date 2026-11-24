@@ -412,7 +412,7 @@ z
     <text style="font-size: 12px; font-family: 'Microsoft YaHei', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #4c6271" x="396" y="64.353488" transform="rotate(-0 396 64.353488)">B 为批量大小；每条光谱独立输入</text>
    </g>
    <g id="text_3">
-    <text style="font-size: 14px; font-family: 'Microsoft YaHei', 'DejaVu Sans', sans-serif; fill: #183747" transform="translate(349.317656 107.70695)">C方案光谱输入</text>
+    <text style="font-size: 14px; font-family: 'Microsoft YaHei', 'DejaVu Sans', sans-serif; fill: #183747" transform="translate(349.317656 107.70695)">预处理光谱输入</text>
     <text style="font-size: 14px; font-family: 'Microsoft YaHei', 'DejaVu Sans', sans-serif; fill: #183747" transform="translate(366.754219 126.631188)">[B, 2048]</text>
    </g>
    <g id="text_4">

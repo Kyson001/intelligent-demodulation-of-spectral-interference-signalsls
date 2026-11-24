@@ -1,4 +1,4 @@
-"""从仓库原始CSV重新完成C预处理、伪标签与位置级划分。"""
+"""从仓库原始CSV重新完成预处理、伪标签与位置级划分。"""
 import argparse
 from pathlib import Path
 import subprocess

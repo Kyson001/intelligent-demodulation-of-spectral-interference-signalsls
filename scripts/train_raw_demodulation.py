@@ -29,7 +29,7 @@ def sha256(path):
 
 
 def load_raw_split(data_dir, split):
-    """Use the NPZ metadata and labels, and replace its C input with hash-checked CSV intensity."""
+    """Use the NPZ metadata and labels, and replace its preprocessed input with hash-checked CSV intensity."""
     source = data_dir / 'processed' / f'{split}.npz'
     data = load_split(source)
     x = np.empty((len(data['sample_ids']), RAW_POINTS), dtype=np.float32)

@@ -1,4 +1,4 @@
-"""单文件交付：CNN训练、预测、C预处理、鲁棒性评价。
+"""单文件交付：CNN训练、预测、预处理、鲁棒性评价。
 直接运行本文件：使用已有第二版模型完成验证预测和鲁棒性评价，不重新训练。
 可选命令 train / predict / robustness；python 本文件.py --help 查看参数。
 依赖numpy、scipy、torch；不依赖本项目的任何其他.py文件。
@@ -10,7 +10,7 @@ from __future__ import annotations
 """迈克尔逊光谱联合解调：可独立使用的 PyTorch 1D-CNN。
 
 train 只读 train/validation；predict 无需标签。历史测试指标随结果文件提供。
-输入必须是已经完成 C 预处理的 NPZ，不可直接输入原始 CSV。
+输入必须是已经完成预处理的 NPZ，不可直接输入原始 CSV。
 监督标签是算法伪标签，指标不等于独立仪器测量精度。
 """
 import argparse
@@ -56,7 +56,7 @@ def core_setup(seed=20261118, device='auto'):
 # 输入 NPZ 的 X 为 [样本数, 2048]，k_rad_per_m 为递增波数坐标。
 # labeled=True 用于训练/评价；普通预测可不提供标签。有效掩码决定哪些标签参与损失。
 def core_load_npz(path, labeled=True):
-    """读取时拒绝 pickle；检查输入、坐标、C方案及有效标签。"""
+    """读取时拒绝 pickle；检查输入、坐标、预处理及有效标签。"""
     with np.load(path, allow_pickle=False) as f:
         d = {k: f[k].copy() for k in f.files}
     x, k = (d['X'], d['k_rad_per_m'])
@@ -65,7 +65,7 @@ def core_load_npz(path, labeled=True):
     if k.shape != (2048,) or not np.isfinite(k).all() or (not np.all(np.diff(k) > 0)):
         raise ValueError('波数坐标必须有限、递增且为2048点')
     if str(d['scheme'].item()) != 'C' or float(d['reference_wavelength_nm']) != 1560:
-        raise ValueError('要求C方案及1560nm相位参考')
+        raise ValueError('要求包络补偿和 Hann 加窗预处理，以及 1560 nm 相位参考')
     if labeled:
         for task, target in [('opd', 'opd_pseudo_m'), ('phase', 'phase_pseudo_rad')]:
             mask = d[f'{task}_valid']
@@ -100,7 +100,7 @@ def core_no_leakage(a, b):
 # B 表示当前批次样本数；网络输入 [B, 1, 2048]，卷积特征输出 [B, 32, 2048]。
 # 不使用池化或步长降采样，以保留干涉条纹的位置细节。
 class core_JointCNN(nn.Module):
-    """不作FFT、不输入标签/文件编号；仅从C方案光谱学习。
+    """不作FFT、不输入标签/文件编号；仅从预处理光谱学习。
 
     三层不降采样的卷积感受野为63点。OPD头汇总全谱的频率特征；
     相位头保留1560nm附近128点的位置，以免全局池化抹掉相位。
@@ -239,14 +239,14 @@ def core_load_model(path, device):
     return (model, ck)
 
 # ==================== 核对模型和输入是否匹配 ====================
-# 同为2048点仍不代表坐标相同：还需要匹配实际波数网格、C方案与1560 nm参考。
+# 同为2048点仍不代表坐标相同：还需要匹配实际波数网格、预处理与1560 nm参考。
 def core_check_input(ck, data):
     np.testing.assert_allclose(ck['k_rad_per_m'].numpy(), data['k_rad_per_m'], rtol=0, atol=1e-06)
     if ck['scheme'] != str(data['scheme'].item()) or ck['reference_wavelength_nm'] != float(data['reference_wavelength_nm']):
         raise ValueError('检查点与输入预处理/参考波长不匹配')
 
 
-# ==================== 2. C方案预处理 ====================
+# ==================== 2. 预处理 ====================
 """Reproducible, label-free preprocessing. No thermal compensation is inferred.
 
 Intensity values are retained in their supplied units. Confirm linear units before
@@ -378,7 +378,7 @@ def pp_extract_phase(k, signal, support, weights, carrier_bin, config=pp_Config(
     phase_centered = (k - kc) * opd + float(phi) + residual
     return dict(opd_m=float(opd), phase_rad=float(phi), residual_rms_rad=float(residual_rms), phase_curve=phase_centered, residual=residual, amplitude=np.abs(analytic))
 
-# ==================== 传统诊断工具：比较A/B/C预处理 ====================
+# ==================== 传统诊断工具：比较三种预处理配置 ====================
 # 返回峰宽、侧带能量比例与相位拟合残差等，供预处理分析；普通训练入口不调用它。
 def pp_compare(wavelength_nm, intensity, config=pp_Config()):
     k, y = pp_uniform_k(wavelength_nm, intensity)
@@ -406,11 +406,11 @@ def pp_compare(wavelength_nm, intensity, config=pp_Config()):
 
 # ==================== 第11块：生成CNN需要的一条输入谱 ====================
 # 等k插值 → 指定方案处理 → 抗混叠重采样至2048点 → 去均值 → RMS归一化。
-# 鲁棒性实验明确传入 C；已保存的训练 NPZ 可直接读取，不在每轮训练重复预处理。
+# 鲁棒性实验使用带包络补偿与 Hann 窗的预处理；已保存的训练 NPZ 可直接读取。
 def pp_model_input(wavelength_nm, intensity, scheme='A', config=pp_Config()):
-    """训练/推理共用入口：A/B/C预处理、抗混叠重采样、逐谱RMS归一化。
+    """训练/推理共用入口：三种预处理配置、抗混叠重采样、逐谱RMS归一化。
 
-    C在密波数网格上先补偿包络，再乘Hann窗。这里不生成距离或相位真值。
+    传统解调预处理在密波数网格上先补偿包络，再乘 Hann 窗。这里不生成距离或相位真值。
     返回真实重采样坐标；多相重采样一般不会同时保留原网格的两个端点。
     默认A保留旧接口兼容性；正式导出入口读取训练配置指定的方案。
     """
@@ -726,7 +726,7 @@ def audit_perturb(raw, kind, level, rng, sign=1):
         y *= factor
     return (wavelength, y)
 
-# ==================== 扰动后重新执行同一套C预处理 ====================
+# ==================== 扰动后重新执行同一套预处理 ====================
 # 返回 float32 的2048点输入；干净条件可与已有 X 对齐，以确保比较的处理流程一致。
 def audit_make_input(raw, expected=None):
     wavelength, intensity = raw
@@ -826,7 +826,7 @@ def audit_run_robustness(project_root, out):
                 row[f'{col}_sd'] = float(values.std(ddof=1))
             aggregates.append(row)
     (AUDIT_OUT / 'noise_aggregate.json').write_text(json.dumps(aggregates, ensure_ascii=False, indent=2), encoding='utf-8')
-    report = ['# 第六项：原始强度域鲁棒性压力测试', '', '## 结论边界', '', '本轮只评价，不训练、不改变检查点、不访问测试集。数据来自已有验证集的60个位置；该验证集已用于早停和第二版选择，因此本结果是开发阶段压力测试，不是独立盲测。标签为算法伪标签。原始强度的物理单位未确认，所以噪声比例不能称为真实仪器SNR。没有跨日期/跨批次数据，本轮不评价跨批次泛化。', '', '## 扰动协议', '', '验证集每条原始CSV先重跑C预处理，干净重建与已有网络输入逐点完全相同。噪声是在原始强度域注入零均值高斯噪声，标准差为该条谱100点高斯平滑背景峰值的0.1%、0.25%、0.5%、1%、2%、5%，每级3个固定随机种子。包络变化包含端到端倾斜比(1+5%)的±1次方、(1+10%)的±1次方、(1+20%)的±1次方，及边缘/中心弯曲比(1+5%)的±1次方、(1+10%)的±1次方、(1+20%)的±1次方。所有扰动后重新执行同一个C预处理和RMS归一化。', '', '每种条件下同时比较对原伪标签的OPD/相位误差、位置宏平均误差，以及相对本模型干净输入预测的漂移。模型间比较只用于观察敏感性，不在本实验中选出或替换模型。', '', '## 干净验证基线', '', '|模型|OPD MAE (μm)|OPD P95 (μm)|相位圆周 MAE (rad)|', '|---|---:|---:|---:|']
+    report = ['# 第六项：原始强度域鲁棒性压力测试', '', '## 结论边界', '', '本轮只评价，不训练、不改变检查点、不访问测试集。数据来自已有验证集的60个位置；该验证集已用于早停和第二版选择，因此本结果是开发阶段压力测试，不是独立盲测。标签为算法伪标签。原始强度的物理单位未确认，所以噪声比例不能称为真实仪器SNR。没有跨日期/跨批次数据，本轮不评价跨批次泛化。', '', '## 扰动协议', '', '验证集每条原始CSV先重跑预处理，干净重建与已有网络输入逐点完全相同。噪声是在原始强度域注入零均值高斯噪声，标准差为该条谱100点高斯平滑背景峰值的0.1%、0.25%、0.5%、1%、2%、5%，每级3个固定随机种子。包络变化包含端到端倾斜比(1+5%)的±1次方、(1+10%)的±1次方、(1+20%)的±1次方，及边缘/中心弯曲比(1+5%)的±1次方、(1+10%)的±1次方、(1+20%)的±1次方。所有扰动后重新执行同一个预处理和RMS归一化。', '', '每种条件下同时比较对原伪标签的OPD/相位误差、位置宏平均误差，以及相对本模型干净输入预测的漂移。模型间比较只用于观察敏感性，不在本实验中选出或替换模型。', '', '## 干净验证基线', '', '|模型|OPD MAE (μm)|OPD P95 (μm)|相位圆周 MAE (rad)|', '|---|---:|---:|---:|']
     for name in ['initial', 'second']:
         m = clean_metrics[name]
         report.append(f'|{name}|{m['opd_um']['mae']:.6f}|{m['opd_um']['p95_abs']:.6f}|{m['phase_rad']['mae']:.8f}|')
@@ -854,7 +854,7 @@ def main():
     parser.add_argument('--project-root', type=Path, default=project_default,
                         help='仓库根目录，包含 datasets/ 和 cnn/，默认自动定位')
     parser.add_argument('--data-dir', type=Path, help='训练processed目录，默认仓库 datasets/processed')
-    parser.add_argument('--input', type=Path, help='预测用C方案NPZ，默认原验证集')
+    parser.add_argument('--input', type=Path, help='预测用预处理NPZ，默认原验证集')
     parser.add_argument('--checkpoint', type=Path, default=script.parent/'models/second.pt')
     parser.add_argument('--out', type=Path, help='必须是新的输出目录；默认本包下运行结果/日期时间')
     parser.add_argument('--device', choices=['auto','cpu','cuda'], default='auto')
@@ -875,7 +875,7 @@ def main():
     out.mkdir(parents=True)
     # ---------- 分支B：加载指定权重做预测，输出CSV ----------
     if args.mode in ['all','predict']:
-        print('步骤1：加载交付第二版模型，完成C方案输入预测。',flush=True)
+        print('步骤1：加载交付第二版模型，完成预处理输入预测。',flush=True)
         device = core_setup(device=args.device)
         model, ck = load_model(args.checkpoint, device)
         d = core_load_npz(args.input or data/'validation.npz',labeled=False)

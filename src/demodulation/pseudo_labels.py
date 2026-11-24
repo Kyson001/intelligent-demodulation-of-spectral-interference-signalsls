@@ -41,7 +41,7 @@ def wrap_phase(value):
 
 # ==================== 第2块：FFT粗定位（不是OPD最终标签） ====================
 def coarse_carrier(k, windowed_c, config):
-    """利用C方案的加窗谱，找干涉侧带中心和大致条纹周期。"""
+    """利用预处理加窗谱，找干涉侧带中心和大致条纹周期。"""
     n = len(k)
     amplitude = np.abs(np.fft.rfft(windowed_c))
     opd_axis = 2*np.pi*np.fft.rfftfreq(n, d=k[1]-k[0])
@@ -185,7 +185,7 @@ def local_center_phase(k,windowed_c,background,support,carrier_bin,config):
 
 # ==================== 第6块：合并标签、质量标志，保留不合格记录 ====================
 def label_prepared(stages,config=LabelConfig()):
-    """输入C预处理返回的字典；输出标量标签、QC及可用于核对的峰位数组。"""
+    """输入预处理返回的字典；输出标量标签、QC及可用于核对的峰位数组。"""
     if not config.min_opd_mm>0 or config.max_opd_mm<=config.min_opd_mm or config.minimum_peaks<3:
         raise ValueError('非法标签参数')
     k = stages['k_dense']

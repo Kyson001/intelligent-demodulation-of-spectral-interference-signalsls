@@ -3,7 +3,7 @@
 | 目录 | 内容 |
 |---|---|
 | `raw/` | 4000个处理前CSV，每条10001点，1510–1610 nm |
-| `processed/train.npz` | 训练集：280个位置、2800条C方案输入与伪标签 |
+| `processed/train.npz` | 训练集：280个位置、2800条预处理输入与伪标签 |
 | `processed/validation.npz` | 验证集：60个位置、600条 |
 | `processed/test.npz` | 测试集：60个位置、600条 |
 | `manifests/` | 逐条分组、位置表、伪标签CSV、顺序核查和划分说明 |

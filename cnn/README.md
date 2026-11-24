@@ -1,6 +1,6 @@
 # CNN 光谱干涉联合解调：阅读目录与运行说明
 
-本目录独立保存 CNN 成果：输入迈克尔逊光谱的 C 方案预处理结果，预测光程差 OPD 与 1560 nm 中心包裹相位。包含初版、第二版和固定两代模型的鲁棒性评价；鲁棒性部分没有新增训练。
+本目录保存 2048 点 CNN 历史实验：输入迈克尔逊光谱的 预处理结果，预测光程差 OPD 与 1560 nm 中心包裹相位。包含初版、第二版和固定两代模型的鲁棒性评价；鲁棒性部分没有新增训练。
 
 ## 先看哪些文件
 
@@ -41,14 +41,14 @@ python cnn/CNN完整程序.py --mode predict
 python cnn/CNN完整程序.py --mode robustness
 ```
 
-用初版预测，或输入自己的同格式 C 方案 NPZ：
+用初版预测，或输入自己的同格式 预处理 NPZ：
 
 ```powershell
 python cnn/CNN完整程序.py --mode predict --checkpoint cnn/models/initial.pt
 python cnn/CNN完整程序.py --mode predict --input new_C.npz
 ```
 
-预测输入不是原始 CSV，必须符合仓库既有 C 预处理、2048点波数网格及参考相位约定。程序检查 NPZ 与检查点的输入约定。
+历史模型的输入须符合既有预处理流程、2048 点波数网格及参考相位约定。程序检查 NPZ 与检查点的输入约定。
 
 显式重新训练第二版最终配置：
 

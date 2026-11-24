@@ -1,4 +1,4 @@
-"""C方案完整预处理脚本（中文逐块注释，可单独复制运行）。
+"""完整预处理脚本（中文逐块注释，可单独复制运行）。
 
 依赖：numpy、scipy。默认输入：本项目analysis/data_4000中的file*.csv。
 执行：python scripts/preprocess_c.py
@@ -109,7 +109,7 @@ def prepare_dense_spectrum(wavelength_nm, intensity, config=CConfig()):
     envelope_corrected = background_removed/denominator
     weak_mask = background < denominator_floor  # 标记弱光区，不静默删点
 
-    # ==================== 第8块：Hann加窗，形成C方案 ====================
+    # ==================== 第8块：Hann加窗，生成加窗谱 ====================
     # 逐点相乘；sym=False与此前FFT比较使用的周期Hann保持一致。
     # Hann降低光谱边缘权重，改变泄漏和有效带宽；不等于温度校正。
     hann = windows.hann(len(k_dense), sym=False)
@@ -160,7 +160,7 @@ def preprocess_spectrum(wavelength_nm, intensity, config=CConfig()):
 def main():
     """批量处理file*.csv；默认保存全体网络输入，以及首/中/末三条的中间数据。"""
     root = Path(__file__).resolve().parents[1]
-    parser = argparse.ArgumentParser(description='C方案：包络补偿＋Hann加窗，中文注释版')
+    parser = argparse.ArgumentParser(description='光谱预处理：包络补偿＋Hann加窗，中文注释版')
     parser.add_argument('--data-dir', type=Path, default=root/'analysis/data_4000', help='原始CSV目录')
     parser.add_argument('--out', type=Path, default=root/'analysis/preprocessed_C', help='输出目录')
     parser.add_argument('--points', type=int, default=2048, help='最终输入长度')
@@ -213,7 +213,7 @@ def main():
             np.savez_compressed(stages_dir/f'{path.stem}_C_stages.npz',
                                 wavelength_nm=wavelength, intensity_recorded=intensity, **arrays)
         if (index+1)%500 == 0:
-            print(f'C方案已处理 {index+1}/{len(paths)} 条', flush=True)
+            print(f'预处理已处理 {index+1}/{len(paths)} 条', flush=True)
 
     # 不把“每10条一组”的推测自动当作真实位置；先输出候选块供采集者核对。
     # 新训练集必须按确认的位置分组。此处不沿用旧的随机样本划分。

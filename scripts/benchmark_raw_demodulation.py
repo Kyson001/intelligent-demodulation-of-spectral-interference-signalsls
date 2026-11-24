@@ -109,7 +109,7 @@ def main():
         'test_sha256': sha256(data_dir / 'processed' / 'test.npz'),
         'accuracy_reference': 'traditional pseudo labels, not independent instrument truth',
         'timing_scope': 'warmed batch=1 from raw arrays in memory to OPD/phase; excludes CSV loading and model startup',
-        'traditional_path': 'high-resolution C stages, peak spacing, Fourier phase, and QC; skips unused model resampling',
+        'traditional_path': 'high-resolution preprocessing, peak spacing, Fourier phase, and QC; skips unused model resampling',
         'threads': 1, 'repeats': args.repeats, 'platform': platform.platform(),
         'processor': platform.processor(), 'torch': str(torch.__version__),
         'numpy': np.__version__, 'scipy': scipy.__version__,

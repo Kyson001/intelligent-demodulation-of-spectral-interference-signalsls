@@ -153,9 +153,9 @@ def compare(wavelength_nm, intensity, config=Config()):
 
 
 def model_input(wavelength_nm, intensity, scheme='A', config=Config()):
-    """训练/推理共用入口：A/B/C预处理、抗混叠重采样、逐谱RMS归一化。
+    """训练/推理共用入口：三种预处理配置、抗混叠重采样、逐谱RMS归一化。
 
-    C在密波数网格上先补偿包络，再乘Hann窗。这里不生成距离或相位真值。
+    传统解调预处理在密波数网格上先补偿包络，再乘 Hann 窗。这里不生成距离或相位真值。
     返回真实重采样坐标；多相重采样一般不会同时保留原网格的两个端点。
     默认A保留旧接口兼容性；正式导出入口读取训练配置指定的方案。
     """

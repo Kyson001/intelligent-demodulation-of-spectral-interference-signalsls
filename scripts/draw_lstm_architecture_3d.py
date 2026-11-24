@@ -85,7 +85,7 @@ curve_x = 4 + np.linspace(0, 16, spectrum.size)
 curve_y = 47 + 7 * spectrum / np.max(np.abs(spectrum))
 ax.plot(curve_x, curve_y, color='#397897', lw=.55, zorder=5)
 text(12, 29, '[B, 2048]', size=14)
-text(12, 22, 'C方案光谱', size=12, color=EDGE)
+text(12, 22, '预处理光谱', size=12, color=EDGE)
 arrow(23.3, 47, 28, 47)
 
 # 2. reshape得到256个8点块。

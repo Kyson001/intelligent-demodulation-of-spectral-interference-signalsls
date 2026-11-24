@@ -6,7 +6,7 @@
   "test_sha256": "231d7639ae80d3c1c489751f8deb74c7efca082fb558d4ed049773a067a95188",
   "accuracy_reference": "traditional pseudo labels, not independent instrument truth",
   "timing_scope": "warmed batch=1 from raw arrays in memory to OPD/phase; excludes CSV loading and model startup",
-  "traditional_path": "high-resolution C stages, peak spacing, Fourier phase, and QC; skips unused model resampling",
+  "traditional_path": "high-resolution preprocessing, peak spacing, Fourier phase, and QC; skips unused model resampling",
   "threads": 1,
   "repeats": 3,
   "platform": "Windows-11-10.0.26200-SP0",

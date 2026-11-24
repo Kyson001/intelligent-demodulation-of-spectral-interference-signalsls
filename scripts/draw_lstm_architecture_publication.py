@@ -97,7 +97,7 @@ curve_x = 6 + np.linspace(0, 14, spectrum.size)
 curve_y = 46 + 6.5 * spectrum / np.max(np.abs(spectrum))
 ax.plot(curve_x, curve_y, color='#4E8199', lw=.48, zorder=4)
 label(13, 29, '[B, 2048]', size=11)
-label(13, 22.5, 'C方案输入', size=10, color=MUTED)
+label(13, 22.5, '预处理输入', size=10, color=MUTED)
 arrow((23.3, 46), (30.5, 46))
 
 label(38, 66, '连续8点分块', size=11.5)

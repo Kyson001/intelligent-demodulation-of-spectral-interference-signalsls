@@ -1,4 +1,4 @@
-"""C方案的独立正确性检查：单位、步骤对应、相位保持及错误输入。"""
+"""预处理独立正确性检查：单位、步骤对应、相位保持及错误输入。"""
 import importlib.util
 from pathlib import Path
 import sys

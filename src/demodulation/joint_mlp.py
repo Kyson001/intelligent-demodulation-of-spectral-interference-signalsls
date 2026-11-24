@@ -32,7 +32,7 @@ def load_split(path):
         if data[key].shape != (n,):
             raise ValueError(f'{key}长度与X不匹配')
     if str(data['scheme'].item()) != 'C':
-        raise ValueError('本教学模型只接受已经执行C方案的输入')
+        raise ValueError('本教学模型只接受已经执行预处理输入')
     k = data['k_rad_per_m']
     if k.shape != (points,) or not np.isfinite(k).all() or not np.all(np.diff(k) > 0):
         raise ValueError('波数坐标必须有限、递增且与输入维度相同')

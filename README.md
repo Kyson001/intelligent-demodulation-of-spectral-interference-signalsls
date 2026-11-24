@@ -4,13 +4,13 @@
 
 研究对象：迈克尔逊干涉仪，目标为光程差（OPD）与参考波长处的相位联合估计。
 
-为了提高预测速度，我们将 **10001 点原始光谱**直接输入 CNN 或双向 LSTM，输出**光程差（OPD）和 1560 nm 处的包裹相位**。预测时跳过 C 方案的等波数插值、包络补偿、加窗和 2048 点重采样。训练沿用由传统解调离线生成的伪标签。
+为了提高预测速度，我们将 **10001 点原始光谱**直接输入 CNN 或双向 LSTM，输出**光程差（OPD）和 1560 nm 处的包裹相位**。训练沿用传统解调离线生成的伪标签。预测时直接输入原始强度，省去传统预处理与求解步骤。
 
 ## 项目演示与汇报材料
 
 - [在线演示网页（10001 点原始光谱版）](https://kyson001.github.io/intelligent-demodulation-of-spectral-interference-signalsls/)
 - [网页源码与部署说明](web/README.md)
-- [课程汇报 PPT（2.0）](presentations/2.0.pptx)
+- [最终课程汇报 PPT](presentations/课程汇报_最终版.pptx)
 - [光谱干涉智能解调 · CNN 与 BiLSTM 历史对比报告（PDF）](<presentations/光谱干涉智能解调 · CNN 与 BiLSTM 对比报告.pdf>)
 
 ## 原始光谱联合解调
@@ -32,23 +32,23 @@ python scripts/predict_raw_demodulation.py --model cnn datasets/raw/file0001.csv
 python scripts/predict_raw_demodulation.py --model bilstm datasets/raw/file0001.csv
 ```
 
-[原始光谱模型权重、对比结果与复现步骤](results/raw_demodulation/README.md)
+[模型框架](src/demodulation/raw_models.py) · [共用训练入口](scripts/train_raw_demodulation.py) · [模型权重、对比结果与复现步骤](results/raw_demodulation/README.md)
 
 ## 可编辑PPT、绘图代码与独立工程
 
 - [用户修改后的可编辑网络结构图PPT](presentations/LSTM网络结构图_可编辑版.pptx)：按桌面原文件保存，文字、图形和连线可分别编辑。
 - [全部绘图入口与代码索引](docs/11_绘图与独立工程代码索引.md)：原始/处理后光谱、包络和Hann窗、FFT/相位、MLP/LSTM对比及三版网络结构图。
 - [独立LSTM教学工程](examples/lstm_standalone/)：`model.py`、中文注释`train.py`、依赖及运行说明。
-- [独立C方案预处理代码](examples/preprocessing_c/)和[三套历史结构图](results/lstm_architecture/)。
+- [独立预处理代码](examples/preprocessing_c/)和[三套历史结构图](results/lstm_architecture/)。
 
-绘图默认读取仓库内的`datasets/`，无需此前电脑上的桌面路径。批量A/B/C比较入口为`scripts/compare_preprocessing_dataset.py`，`scripts/compare_preprocessing.py`保留用户修改后的单谱绘图用途。
+绘图默认读取仓库内的`datasets/`，无需此前电脑上的桌面路径。三种预处理配置的批量比较入口为`scripts/compare_preprocessing_dataset.py`，`scripts/compare_preprocessing.py`保留用户修改后的单谱绘图用途。
 
 ## 数据、代码与整个课题的复现思路
 
 - [处理前数据](datasets/raw)：4000个原始CSV。
 - [处理后数据](datasets/processed)：`train.npz`、`validation.npz`、`test.npz`，分别2800、600、600条。
 - [数据格式与读取方法](datasets/README.md)：NPZ字段、伪标签和质量掩码。
-- [中文注释C方案预处理代码](scripts/preprocess_c.py)。
+- [中文注释预处理代码](scripts/preprocess_c.py)。
 - [整个课题的复现思路与操作步骤](docs/08_整个课题复现思路与操作步骤.md)：数据链路、后续网络训练、评价、网页及PPT的实施安排。
 
 原始CSV及处理后数组均已放在仓库内；下载后可直接使用，也可从原始数据重新计算。
@@ -89,13 +89,9 @@ python -m venv .venv-training
 
 本次100轮教学实验的验证OPD MAE为887.691 μm、相位圆周MAE为0.6389 rad，最佳第99轮。完整配置和逐条结果保存在本机`analysis/joint_mlp_tutorial_seed20261117/`；教程记录了结果和限制，真实测试集尚未评价。论文前仍需改进泛化、多种子及独立真值验证。
 
-## 预处理比较
+## 传统预处理与伪标签
 
-- A：等波数线性插值＋去常量背景。
-- B：慢变背景扣除＋有下限的包络代理归一化。
-- C：B＋Hann加窗。
-
-当前按用户选择使用**C方案：包络补偿＋Hann窗**，再抗混叠至2048点并逐谱RMS归一化。完整中文注释脚本为[scripts/preprocess_c.py](scripts/preprocess_c.py)，分块讲解见[C方案使用说明](docs/05_C方案完整代码与分块讲解.md)。此前A/B/C比较结果保留于[实验报告](docs/04_三种预处理方案实验报告.md)，不将用户选择表述为已证明的精度最优。
+传统解调先做等波数插值、背景扣除、包络补偿和 Hann 加窗，再从高分辨率光谱估计光程差与相位伪标签。历史 2048 点模型还使用抗混叠降采样和逐谱 RMS 归一化。步骤和参数见[预处理说明](docs/05_预处理完整代码与分块讲解.md)与[三种配置的比较报告](docs/04_三种预处理方案实验报告.md)。
 
 ![光谱、FFT与相位比较](results/preprocessing/figures/01_spectrum_fft_phase.png)
 
@@ -114,7 +110,7 @@ python -X utf8 scripts/reproduce_data_pipeline.py
 
 CSV列为波长和强度，首行为标题。当前配置针对1510–1610 nm、10001点以及约2.3–10.3 mm的诊断OPD范围，不能直接作为其他仪器的通用标定。
 
-C方案结果默认保存到`analysis/preprocessed_C/`，预处理/制标签阶段不自动划分。新增顺序核查强烈支持从file0001起每位置连续10条；`scripts/split_dataset_by_position.py`按位置生成2800/600/600条训练、验证和测试数据，跨位置完全重复谱绑定分区。桌面包包含原始CSV、C输入、伪标签、分组清单和完整代码，详见[位置划分与交付说明](docs/07_按采集位置分组与数据包说明.md)。
+预处理结果默认保存到`analysis/preprocessed_C/`，预处理/制标签阶段不自动划分。新增顺序核查强烈支持从file0001起每位置连续10条；`scripts/split_dataset_by_position.py`按位置生成2800/600/600条训练、验证和测试数据，跨位置完全重复谱绑定分区。桌面包包含原始 CSV、预处理光谱、伪标签、分组清单和完整代码，详见[位置划分与交付说明](docs/07_按采集位置分组与数据包说明.md)。
 
 ```powershell
 python -X utf8 scripts/split_dataset_by_position.py
@@ -123,7 +119,7 @@ python -X utf8 scripts/verify_dataset_package.py "桌面数据包路径" --verif
 
 已实现多干涉峰频率间距OPD伪标签和1560 nm中心相位伪标签。全部4000条已计算，3999条OPD和3992条相位通过当前QC，8条保留待复核。中心相位使用正侧带局部二次拟合，另有峰位截距相位用于交叉检查。详见[伪标签算法与相位说明](docs/06_光程差与相位伪标签生成说明.md)。
 
-伪标签及合并后的C输入在重算过程中保存在分析目录，合并前检查sample_id、原始文件哈希和预处理配置。仓库`datasets/`内提供可直接使用的原始数据、分区数组和标签清单；历史距离缓存未作为真值发布，新增算法标签也不是独立测量真值。
+伪标签及合并后的预处理输入在重算过程中保存在分析目录，合并前检查sample_id、原始文件哈希和预处理配置。仓库`datasets/`内提供可直接使用的原始数据、分区数组和标签清单；历史距离缓存未作为真值发布，新增算法标签也不是独立测量真值。
 
 ## 目录
 

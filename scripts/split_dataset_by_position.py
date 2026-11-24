@@ -268,7 +268,7 @@ def build_package(labeled_path,raw_dir,out,repeats=10,seed=20261117,include_raw=
 def package_readme(summary):
     """生成面向使用者的说明，不把数据分区包装成独立仪器验证。"""
     counts=summary['splits']
-    return f'''# 迈克尔逊光谱C方案：按采集位置划分的数据包
+    return f'''# 迈克尔逊光谱预处理：按采集位置划分的数据包
 
 4000条光谱按顺序形成400个候选采集位置，每位置10条。顺序假设由OPD阶跃与FFT幅度形状强力支持，但没有硬件位置日志独立证明。
 
@@ -308,7 +308,7 @@ grouping/sample_manifest.csv逐条列出位置、重复编号、分区和质量�
 
 ## 代码复现
 
-进入code目录，安装requirements.txt。对某分区重新做C预处理：
+进入code目录，安装requirements.txt。对某分区重新做预处理：
 
 ```powershell
 python -m pip install -r requirements.txt

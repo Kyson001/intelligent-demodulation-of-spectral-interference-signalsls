@@ -1,7 +1,7 @@
 """按光谱峰间距法生成OPD伪标签，并生成固定参考点的相位伪标签。
 
 运行：python -X utf8 scripts/generate_pseudo_labels.py
-依赖现有C方案脚本和src/demodulation/pseudo_labels.py，所有步骤均有中文说明。
+依赖现有预处理脚本和src/demodulation/pseudo_labels.py，所有步骤均有中文说明。
 """
 # ==================== 第1块：导入和项目路径 ====================
 import argparse
@@ -21,7 +21,7 @@ from demodulation.pseudo_labels import LabelConfig,label_prepared
 
 
 def join_with_c_inputs(input_path, labels, rows, output_path, cconfig):
-    """按ID、原始文件哈希及预处理配置三重检查后，将伪标签与C输入合并。
+    """按ID、原始文件哈希及预处理配置三重检查后，将伪标签与预处理输入合并。
 
     防止同名文件被替换后，误把新标签拼到旧输入；不满足检查时只保存标签，不强行合并。
     """
@@ -62,7 +62,7 @@ def main():
     parser.add_argument('--data-dir',type=Path,default=ROOT/'analysis/data_4000')
     parser.add_argument('--out',type=Path,default=ROOT/'analysis/pseudo_labels')
     parser.add_argument('--inputs',type=Path,default=ROOT/'analysis/preprocessed_C/model_inputs_C_2048.npz',
-                        help='已有C输入矩阵，用于核对sample_id；不从2048点输入反推标签')
+                        help='已有预处理输入矩阵，用于核对sample_id；不从2048点输入反推标签')
     parser.add_argument('--config',type=Path,default=ROOT/'configs/pseudo_labels.json')
     parser.add_argument('--overwrite',action='store_true')
     parser.add_argument('--limit',type=int,default=0,help='只用于调试；正式运行默认全部')
@@ -135,7 +135,7 @@ def main():
                 label_status=np.array('algorithmic_pseudo_labels_not_independent_truth'))
     np.savez_compressed(args.out/'pseudo_labels.npz',**labels)
 
-    # ==================== 第5块：与已有C输入对齐，不自动划分数据集 ====================
+    # ==================== 第5块：与已有预处理输入对齐，不自动划分数据集 ====================
     # 只按明确sample_id对齐，不按CSV行号盲目拼接。保留待确认的采集位置和分区。
     joined,join_provenance=join_with_c_inputs(args.inputs,labels,rows,
                                             args.out/'training_C_with_pseudo_labels.npz',cconfig)
