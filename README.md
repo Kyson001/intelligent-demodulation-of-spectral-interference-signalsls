@@ -10,7 +10,7 @@
 
 - [在线演示网页（10001 点原始光谱版）](https://kyson001.github.io/intelligent-demodulation-of-spectral-interference-signalsls/)
 - [网页源码与部署说明](web/README.md)
-- [最终课程汇报 PPT](presentations/课程汇报_最终版.pptx)
+- [最终课程汇报 PPT](presentations/汇报.pptx)
 - [光谱干涉智能解调 · CNN 与 BiLSTM 历史对比报告（PDF）](<presentations/光谱干涉智能解调 · CNN 与 BiLSTM 对比报告.pdf>)
 
 ## 原始光谱联合解调
